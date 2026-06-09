@@ -1,0 +1,2 @@
+extends StatusEffect
+class_name Overcharged

@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="DialogueSequence" format=3 uid="uid://dr6rprgrlicdq"]
+
+[ext_resource type="Script" uid="uid://ca4puqf3jyc3p" path="res://dialogue/DialogueEvent.gd" id="1_mgdxk"]
+[ext_resource type="Script" uid="uid://dej4sc0jgjapd" path="res://dialogue/DialogueLoader.gd" id="2_ibdhi"]
+[ext_resource type="Script" uid="uid://bisltsdstsc4v" path="res://dialogue/CharacterDefinition.gd" id="2_sarcd"]
+[ext_resource type="Script" uid="uid://csbdny84tsoad" path="res://dialogue/event/character/CharacterEnterEvent.gd" id="3_ri3rk"]
+[ext_resource type="Script" uid="uid://b0aqnksfjgvle" path="res://dialogue/event/text/LineEvent.gd" id="3_un53q"]
+[ext_resource type="Resource" uid="uid://bj6sxv4dv8jtr" path="res://assets/dialogue/character/Catch-22/chapter_1_definition.tres" id="4_ri3rk"]
+[ext_resource type="Script" uid="uid://burysipfp7k2a" path="res://dialogue/event/scene/WaitEvent.gd" id="4_y262l"]
+[ext_resource type="Script" uid="uid://catsdifrh5ncd" path="res://dialogue/event/character/CharacterExitEvent.gd" id="6_y262l"]
+
+[sub_resource type="Resource" id="Resource_ntgxh"]
+script = ExtResource("3_ri3rk")
+character = ExtResource("4_ri3rk")
+position_ratio = 0.2
+metadata/_custom_type_script = "uid://csbdny84tsoad"
+
+[sub_resource type="Resource" id="Resource_ntkva"]
+script = ExtResource("4_y262l")
+metadata/_custom_type_script = "uid://burysipfp7k2a"
+
+[sub_resource type="Resource" id="Resource_y262l"]
+script = ExtResource("3_un53q")
+speakers = Array[ExtResource("2_sarcd")]([ExtResource("4_ri3rk")])
+text = "This is a dialogue test."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_sarcd"]
+script = ExtResource("3_un53q")
+speakers = Array[ExtResource("2_sarcd")]([ExtResource("4_ri3rk")])
+text = "This is a line event [color=red]with BBCode.[/color]"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_o6jmv"]
+script = ExtResource("6_y262l")
+character = ExtResource("4_ri3rk")
+metadata/_custom_type_script = "uid://catsdifrh5ncd"
+
+[resource]
+script = ExtResource("2_ibdhi")
+events = Array[ExtResource("1_mgdxk")]([SubResource("Resource_ntgxh"), SubResource("Resource_ntkva"), SubResource("Resource_y262l"), SubResource("Resource_sarcd"), SubResource("Resource_o6jmv")])
+metadata/_custom_type_script = "uid://dej4sc0jgjapd"

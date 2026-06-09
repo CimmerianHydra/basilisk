@@ -1,0 +1,497 @@
+[gd_scene format=3 uid="uid://q8aaphl37u7x"]
+
+[ext_resource type="Script" uid="uid://12e0tbl0g5qt" path="res://battle/scenes/battle_example.gd" id="1_dd54u"]
+[ext_resource type="Script" uid="uid://bgfvlul6ojuo8" path="res://battle/EventBus.gd" id="1_ejqhl"]
+[ext_resource type="PackedScene" uid="uid://2qndh5l3ui4p" path="res://unit/unit.tscn" id="1_nktdr"]
+[ext_resource type="Script" uid="uid://bdupq0x2kehi0" path="res://battle/RTSCamera.gd" id="2_ocpgg"]
+[ext_resource type="Script" uid="uid://6wkwnvhof3t2" path="res://addons/easystatemachine/nodes/easy_state.gd" id="3_7hggt"]
+[ext_resource type="Script" uid="uid://2knbywq5q0nx" path="res://battle/state/turn_state.gd" id="3_jroy4"]
+[ext_resource type="Script" uid="uid://c8svgpcqsmu56" path="res://addons/easystatemachine/config/sm_config.gd" id="3_pievb"]
+[ext_resource type="Script" uid="uid://b2xfxp8nxesga" path="res://battle/grid/hex_grid_3d.gd" id="7_pqc6n"]
+[ext_resource type="Script" uid="uid://d32mxcfmwuhwu" path="res://battle/unit_roster.gd" id="7_xojdo"]
+[ext_resource type="Script" uid="uid://ct643bhauyvyw" path="res://unit/actions/Action.gd" id="9_scga7"]
+[ext_resource type="Script" uid="uid://beswcafkmd6aa" path="res://unit/actions/button/ButtonDefinition.gd" id="11_d30sd"]
+[ext_resource type="Script" uid="uid://cow5c7euhhw5i" path="res://unit/actions/conditions/HasResource.gd" id="11_oftoa"]
+[ext_resource type="Script" uid="uid://dh7nosk3jd1o5" path="res://unit/actions/conditions/UsageLimit.gd" id="11_u0yse"]
+[ext_resource type="Script" uid="uid://cb1ou70ihh2kr" path="res://unit/actions/components/d20Roll.gd" id="12_d30sd"]
+[ext_resource type="Script" uid="uid://drype5v5xb6v7" path="res://unit/actions/components/Caster.gd" id="12_omuo1"]
+[ext_resource type="Script" uid="uid://rbumhlyipppq" path="res://unit/actions/components/TakeBattleResource.gd" id="13_kpkuu"]
+[ext_resource type="Script" uid="uid://5rsnmctivys5" path="res://unit/actions/filters/FilterEnemyByRange.gd" id="13_omuo1"]
+[ext_resource type="Script" uid="uid://ukaxdv5ubye2" path="res://unit/actions/components/Damage.gd" id="14_hajar"]
+[ext_resource type="Script" uid="uid://gbfi7qj03sw5" path="res://unit/actions/components/FilterUnitArray.gd" id="15_hajar"]
+[ext_resource type="Script" uid="uid://l54nood0ujx5" path="res://unit/damage/Damage.gd" id="15_jroy4"]
+[ext_resource type="Script" uid="uid://cc4lmycpqwtsp" path="res://unit/actions/components/TargetUnits.gd" id="16_3sj3y"]
+[ext_resource type="Script" uid="uid://boaygm7plcx5m" path="res://unit/actions/filters/FilterByCheck.gd" id="16_hswfs"]
+[ext_resource type="Texture2D" uid="uid://cna3y674qqg1k" path="res://assets/battle/unit/icon/icon_red.svg" id="16_scga7"]
+[ext_resource type="Script" uid="uid://dvb8onui50jm3" path="res://unit/actions/components/DecreaseUsageLimit.gd" id="16_uxm47"]
+[ext_resource type="Script" uid="uid://cqrq2fhmuuoef" path="res://unit/actions/components/Debug.gd" id="17_irjos"]
+[ext_resource type="Script" uid="uid://bu8wit8w2dqor" path="res://battle/scenes/unit_gui.gd" id="17_scga7"]
+[ext_resource type="Script" uid="uid://c6hoadvcvydul" path="res://unit/actions/components/TargetCaster.gd" id="19_gjby0"]
+[ext_resource type="Script" uid="uid://ddck6efgvsfqm" path="res://unit/actions/components/Heat.gd" id="19_irjos"]
+[ext_resource type="Script" uid="uid://dn7lapg6sxlsy" path="res://battle/gui/DiceRoller.gd" id="22_3sj3y"]
+[ext_resource type="Script" uid="uid://ks884y2jfk88" path="res://unit/actions/resources/ActionPoint.gd" id="22_emyvw"]
+[ext_resource type="Texture2D" uid="uid://c440eyuh2edjy" path="res://assets/battle/dice/d20.svg" id="23_irjos"]
+[ext_resource type="Script" uid="uid://bou4fxilcmupr" path="res://unit/actions/resources/OverchargePoint.gd" id="23_m4lvt"]
+[ext_resource type="Script" uid="uid://bxxtwjsjbfxkb" path="res://unit/actions/components/GiveStatusEffect.gd" id="25_18xdr"]
+[ext_resource type="Script" uid="uid://c71ulfg1754na" path="res://unit/status/Overcharged.gd" id="26_buh5v"]
+[ext_resource type="Script" uid="uid://d0ifgdv17i2nc" path="res://unit/actions/components/PathSelect.gd" id="26_gm160"]
+[ext_resource type="Script" uid="uid://v2fpx1o7vxru" path="res://battle/scenes/TargetPayloadKey.gd" id="28_gm160"]
+[ext_resource type="Script" uid="uid://dg2oso4bp2m8" path="res://unit/actions/conditions/HasMoveBudget.gd" id="30_buh5v"]
+
+[sub_resource type="Resource" id="Resource_whno6"]
+script = ExtResource("3_pievb")
+initial_state = "PlayerTurn"
+debug_enabled = true
+metadata/_custom_type_script = "uid://c8svgpcqsmu56"
+
+[sub_resource type="Resource" id="Resource_eras8"]
+script = ExtResource("11_d30sd")
+text = "Skirmish"
+metadata/_custom_type_script = "uid://beswcafkmd6aa"
+
+[sub_resource type="Resource" id="Resource_scga7"]
+script = ExtResource("15_jroy4")
+amount = 5
+metadata/_custom_type_script = "uid://l54nood0ujx5"
+
+[sub_resource type="Resource" id="Resource_3sj3y"]
+script = ExtResource("11_d30sd")
+text = "Overcharge"
+metadata/_custom_type_script = "uid://beswcafkmd6aa"
+
+[sub_resource type="GDScript" id="GDScript_18xdr"]
+script/source = "extends ActionComponent
+class_name GiveActionPoint
+
+@onready var action_point := self.get_child(0)
+
+func execute(ctx: Dictionary) -> void:
+	for unit in ctx[Action.TARGETS_KEY]:
+		var template_resource := action_point.duplicate()
+		unit.resource_library.add_child(template_resource)
+"
+
+[sub_resource type="Resource" id="Resource_kpkuu"]
+script = ExtResource("11_d30sd")
+text = "Move"
+metadata/_custom_type_script = "uid://beswcafkmd6aa"
+
+[sub_resource type="Resource" id="Resource_u0yse"]
+script = ExtResource("11_d30sd")
+text = "Boost"
+metadata/_custom_type_script = "uid://beswcafkmd6aa"
+
+[sub_resource type="Resource" id="Resource_gm160"]
+script = ExtResource("15_jroy4")
+amount = 5
+metadata/_custom_type_script = "uid://l54nood0ujx5"
+
+[node name="battle" type="Node3D" unique_id=1288196938]
+script = ExtResource("1_dd54u")
+
+[node name="EventBus" type="Node" parent="." unique_id=1611738860]
+script = ExtResource("1_ejqhl")
+metadata/_custom_type_script = "uid://bgfvlul6ojuo8"
+
+[node name="TurnState" type="Node" parent="." unique_id=1496816741]
+script = ExtResource("3_jroy4")
+config = SubResource("Resource_whno6")
+
+[node name="PlayerTurn" type="Node" parent="TurnState" unique_id=107586417]
+script = ExtResource("3_7hggt")
+
+[node name="PlayerUnitSelect" type="Node" parent="TurnState" unique_id=4582252]
+script = ExtResource("3_7hggt")
+
+[node name="PlayerTileSelect" type="Node" parent="TurnState" unique_id=1168569596]
+script = ExtResource("3_7hggt")
+
+[node name="AITurn" type="Node" parent="TurnState" unique_id=887544692]
+script = ExtResource("3_7hggt")
+
+[node name="HexGrid" type="Node3D" parent="." unique_id=1401898762]
+script = ExtResource("7_pqc6n")
+metadata/_custom_type_script = "uid://b2xfxp8nxesga"
+
+[node name="UnitRoster" type="Node3D" parent="." unique_id=1279147256]
+script = ExtResource("7_xojdo")
+metadata/_custom_type_script = "uid://d32mxcfmwuhwu"
+
+[node name="SBH" parent="UnitRoster" unique_id=227157806 instance=ExtResource("1_nktdr")]
+
+[node name="Sample Skirmish" type="Node" parent="UnitRoster/SBH/ActionLibrary" parent_id_path=PackedInt32Array(227157806, 271660216) index="0" unique_id=1590126215]
+script = ExtResource("9_scga7")
+has_button = true
+button_definition = SubResource("Resource_eras8")
+metadata/_custom_type_script = "uid://ct643bhauyvyw"
+
+[node name="UsageLimit" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=1470007511]
+script = ExtResource("11_u0yse")
+metadata/_custom_type_script = "uid://dh7nosk3jd1o5"
+
+[node name="Has Resource" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=1641410930 node_paths=PackedStringArray("unit")]
+script = ExtResource("11_oftoa")
+unit = NodePath("../../..")
+metadata/_custom_type_script = "uid://cow5c7euhhw5i"
+
+[node name="ActionPoint" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish/Has Resource" unique_id=1851360528]
+script = ExtResource("22_emyvw")
+metadata/_custom_type_script = "uid://ks884y2jfk88"
+
+[node name="Caster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=1888565543 node_paths=PackedStringArray("caster")]
+script = ExtResource("12_omuo1")
+caster = NodePath("../../..")
+metadata/_custom_type_script = "uid://drype5v5xb6v7"
+
+[node name="TargetCaster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=498641262]
+script = ExtResource("19_gjby0")
+metadata/_custom_type_script = "uid://c6hoadvcvydul"
+
+[node name="DecrementUsageLimit" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=1837919681 node_paths=PackedStringArray("usage_limit")]
+script = ExtResource("16_uxm47")
+usage_limit = NodePath("../UsageLimit")
+metadata/_custom_type_script = "uid://dvb8onui50jm3"
+
+[node name="TakeBattleResource" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=1115190116]
+script = ExtResource("13_kpkuu")
+metadata/_custom_type_script = "uid://rbumhlyipppq"
+
+[node name="ActionPoint" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish/TakeBattleResource" unique_id=2134085054]
+script = ExtResource("22_emyvw")
+metadata/_custom_type_script = "uid://ks884y2jfk88"
+
+[node name="TargetUnits" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=2081423359 node_paths=PackedStringArray("unit_filter")]
+script = ExtResource("16_3sj3y")
+unit_filter = NodePath("FilterEnemyByRange")
+metadata/_custom_type_script = "uid://cc4lmycpqwtsp"
+
+[node name="FilterEnemyByRange" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish/TargetUnits" unique_id=761855739 node_paths=PackedStringArray("enemies_of_unit")]
+script = ExtResource("13_omuo1")
+enemies_of_unit = NodePath("../../../..")
+radius = 5
+metadata/_custom_type_script = "uid://5rsnmctivys5"
+
+[node name="d20Roll" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=610689979]
+script = ExtResource("12_d30sd")
+play_animation = true
+metadata/_custom_type_script = "uid://cb1ou70ihh2kr"
+
+[node name="FilterUnitArray" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=816900129 node_paths=PackedStringArray("unit_filter")]
+script = ExtResource("15_hajar")
+unit_filter = NodePath("FilterByCheck")
+metadata/_custom_type_script = "uid://gbfi7qj03sw5"
+
+[node name="FilterByCheck" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish/FilterUnitArray" unique_id=2029986305 node_paths=PackedStringArray("action")]
+script = ExtResource("16_hswfs")
+action = NodePath("../..")
+metadata/_custom_type_script = "uid://boaygm7plcx5m"
+
+[node name="Damage" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=1654217152]
+script = ExtResource("14_hajar")
+damage = SubResource("Resource_scga7")
+metadata/_custom_type_script = "uid://ukaxdv5ubye2"
+
+[node name="Sample Overcharge" type="Node" parent="UnitRoster/SBH/ActionLibrary" parent_id_path=PackedInt32Array(227157806, 271660216) index="1" unique_id=1233475138]
+script = ExtResource("9_scga7")
+has_button = true
+button_definition = SubResource("Resource_3sj3y")
+metadata/_custom_type_script = "uid://ct643bhauyvyw"
+
+[node name="UsageLimit" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=333230264]
+script = ExtResource("11_u0yse")
+metadata/_custom_type_script = "uid://dh7nosk3jd1o5"
+
+[node name="DecrementUsageLimit" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=1413268455 node_paths=PackedStringArray("usage_limit")]
+script = ExtResource("16_uxm47")
+usage_limit = NodePath("../UsageLimit")
+metadata/_custom_type_script = "uid://dvb8onui50jm3"
+
+[node name="Caster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=1413582728 node_paths=PackedStringArray("caster")]
+script = ExtResource("12_omuo1")
+caster = NodePath("../../..")
+metadata/_custom_type_script = "uid://drype5v5xb6v7"
+
+[node name="TargetCaster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=2142430508]
+script = ExtResource("19_gjby0")
+metadata/_custom_type_script = "uid://c6hoadvcvydul"
+
+[node name="GiveStatusEffect" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=1475062911]
+script = ExtResource("25_18xdr")
+metadata/_custom_type_script = "uid://bxxtwjsjbfxkb"
+
+[node name="Overcharged" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge/GiveStatusEffect" unique_id=1176257346]
+script = ExtResource("26_buh5v")
+metadata/_custom_type_script = "uid://c71ulfg1754na"
+
+[node name="Heat" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=1574521231]
+script = ExtResource("19_irjos")
+metadata/_custom_type_script = "uid://ddck6efgvsfqm"
+
+[node name="Give Resource" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=241986485]
+script = SubResource("GDScript_18xdr")
+
+[node name="OverchargePoint" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge/Give Resource" unique_id=77630153]
+script = ExtResource("23_m4lvt")
+metadata/_custom_type_script = "uid://bou4fxilcmupr"
+
+[node name="Sample Move" type="Node" parent="UnitRoster/SBH/ActionLibrary" parent_id_path=PackedInt32Array(227157806, 271660216) index="2" unique_id=1923410316]
+script = ExtResource("9_scga7")
+has_button = true
+button_definition = SubResource("Resource_kpkuu")
+metadata/_custom_type_script = "uid://ct643bhauyvyw"
+
+[node name="HasMoveBudget" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Move" unique_id=72618097 node_paths=PackedStringArray("unit")]
+script = ExtResource("30_buh5v")
+unit = NodePath("../../..")
+metadata/_custom_type_script = "uid://dg2oso4bp2m8"
+
+[node name="Caster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Move" unique_id=682181428 node_paths=PackedStringArray("caster")]
+script = ExtResource("12_omuo1")
+caster = NodePath("../../..")
+metadata/_custom_type_script = "uid://drype5v5xb6v7"
+
+[node name="TargetCaster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Move" unique_id=2116099530]
+script = ExtResource("19_gjby0")
+metadata/_custom_type_script = "uid://c6hoadvcvydul"
+
+[node name="PathMove" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Move" unique_id=1665650776]
+script = ExtResource("26_gm160")
+spend_move_budget = true
+metadata/_custom_type_script = "uid://d0ifgdv17i2nc"
+
+[node name="Sample Boost" type="Node" parent="UnitRoster/SBH/ActionLibrary" parent_id_path=PackedInt32Array(227157806, 271660216) index="3" unique_id=778779286]
+script = ExtResource("9_scga7")
+has_button = true
+button_definition = SubResource("Resource_u0yse")
+metadata/_custom_type_script = "uid://ct643bhauyvyw"
+
+[node name="UsageLimit" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Boost" unique_id=396995989]
+script = ExtResource("11_u0yse")
+metadata/_custom_type_script = "uid://dh7nosk3jd1o5"
+
+[node name="Has Resource" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Boost" unique_id=1747371536 node_paths=PackedStringArray("unit")]
+script = ExtResource("11_oftoa")
+unit = NodePath("../../..")
+metadata/_custom_type_script = "uid://cow5c7euhhw5i"
+
+[node name="ActionPoint" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Boost/Has Resource" unique_id=221389643]
+script = ExtResource("22_emyvw")
+metadata/_custom_type_script = "uid://ks884y2jfk88"
+
+[node name="DecrementUsageLimit" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Boost" unique_id=356415010 node_paths=PackedStringArray("usage_limit")]
+script = ExtResource("16_uxm47")
+usage_limit = NodePath("../UsageLimit")
+metadata/_custom_type_script = "uid://dvb8onui50jm3"
+
+[node name="Caster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Boost" unique_id=469419265 node_paths=PackedStringArray("caster")]
+script = ExtResource("12_omuo1")
+caster = NodePath("../../..")
+metadata/_custom_type_script = "uid://drype5v5xb6v7"
+
+[node name="TargetCaster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Boost" unique_id=718909254]
+script = ExtResource("19_gjby0")
+metadata/_custom_type_script = "uid://c6hoadvcvydul"
+
+[node name="TakeBattleResource" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Boost" unique_id=1393967038]
+script = ExtResource("13_kpkuu")
+metadata/_custom_type_script = "uid://rbumhlyipppq"
+
+[node name="ActionPoint" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Boost/TakeBattleResource" unique_id=743508771]
+script = ExtResource("22_emyvw")
+metadata/_custom_type_script = "uid://ks884y2jfk88"
+
+[node name="PathMove" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Boost" unique_id=1534412369]
+script = ExtResource("26_gm160")
+metadata/_custom_type_script = "uid://d0ifgdv17i2nc"
+
+[node name="MoveComponent" parent="UnitRoster/SBH" index="7" unique_id=643156353]
+move_budget = 5.0
+speed = 2.0
+
+[node name="Enemy 1" parent="UnitRoster" unique_id=194412516 instance=ExtResource("1_nktdr")]
+team = 0
+display_icon = ExtResource("16_scga7")
+
+[node name="Punish" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary" parent_id_path=PackedInt32Array(194412516, 271660216) index="0" unique_id=475418979]
+script = ExtResource("9_scga7")
+trigger_channel = "movement_start"
+metadata/_custom_type_script = "uid://ct643bhauyvyw"
+
+[node name="Caster" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=407278203 node_paths=PackedStringArray("caster")]
+script = ExtResource("12_omuo1")
+caster = NodePath("../../..")
+metadata/_custom_type_script = "uid://drype5v5xb6v7"
+
+[node name="TargetPayloadKey" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=247450666 node_paths=PackedStringArray("filter")]
+script = ExtResource("28_gm160")
+filter = NodePath("../FilterUnitArray/FilterEnemyByRange")
+metadata/_custom_type_script = "uid://v2fpx1o7vxru"
+
+[node name="FilterUnitArray" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=30671914 node_paths=PackedStringArray("unit_filter")]
+script = ExtResource("15_hajar")
+unit_filter = NodePath("FilterEnemyByRange")
+metadata/_custom_type_script = "uid://gbfi7qj03sw5"
+
+[node name="FilterEnemyByRange" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish/FilterUnitArray" unique_id=1229261588 node_paths=PackedStringArray("enemies_of_unit")]
+script = ExtResource("13_omuo1")
+enemies_of_unit = NodePath("../../../..")
+radius = 1
+metadata/_custom_type_script = "uid://5rsnmctivys5"
+
+[node name="Damage" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=139557680]
+script = ExtResource("14_hajar")
+damage = SubResource("Resource_gm160")
+metadata/_custom_type_script = "uid://ukaxdv5ubye2"
+
+[node name="Debug" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=1025881235]
+script = ExtResource("17_irjos")
+metadata/_custom_type_script = "uid://cqrq2fhmuuoef"
+
+[node name="GridPositionComponent" parent="UnitRoster/Enemy 1" index="11" unique_id=1687524341]
+initial_coord = Vector2i(3, 0)
+
+[node name="Enemy 2" parent="UnitRoster" unique_id=1615708435 instance=ExtResource("1_nktdr")]
+team = 0
+display_icon = ExtResource("16_scga7")
+
+[node name="Punish" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary" parent_id_path=PackedInt32Array(1615708435, 271660216) index="0" unique_id=1215708503]
+script = ExtResource("9_scga7")
+trigger_channel = "movement_start"
+metadata/_custom_type_script = "uid://ct643bhauyvyw"
+
+[node name="Caster" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=1162898028 node_paths=PackedStringArray("caster")]
+script = ExtResource("12_omuo1")
+caster = NodePath("../../..")
+metadata/_custom_type_script = "uid://drype5v5xb6v7"
+
+[node name="TargetPayloadKey" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=2039763992 node_paths=PackedStringArray("filter")]
+script = ExtResource("28_gm160")
+filter = NodePath("../FilterUnitArray/FilterEnemyByRange")
+metadata/_custom_type_script = "uid://v2fpx1o7vxru"
+
+[node name="FilterUnitArray" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=330235130 node_paths=PackedStringArray("unit_filter")]
+script = ExtResource("15_hajar")
+unit_filter = NodePath("FilterEnemyByRange")
+metadata/_custom_type_script = "uid://gbfi7qj03sw5"
+
+[node name="FilterEnemyByRange" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish/FilterUnitArray" unique_id=777839995 node_paths=PackedStringArray("enemies_of_unit")]
+script = ExtResource("13_omuo1")
+enemies_of_unit = NodePath("../../../..")
+radius = 1
+metadata/_custom_type_script = "uid://5rsnmctivys5"
+
+[node name="Damage" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=2029376729]
+script = ExtResource("14_hajar")
+damage = SubResource("Resource_gm160")
+metadata/_custom_type_script = "uid://ukaxdv5ubye2"
+
+[node name="Debug" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=113200797]
+script = ExtResource("17_irjos")
+metadata/_custom_type_script = "uid://cqrq2fhmuuoef"
+
+[node name="GridPositionComponent" parent="UnitRoster/Enemy 2" index="11" unique_id=1687524341]
+initial_coord = Vector2i(-3, 0)
+
+[node name="GUI" type="CanvasLayer" parent="." unique_id=1657175639]
+
+[node name="UnitGUI" type="Control" parent="GUI" unique_id=289664371 node_paths=PackedStringArray("turn_state", "unit_roster", "event_bus")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("17_scga7")
+turn_state = NodePath("../../TurnState")
+unit_roster = NodePath("../../UnitRoster")
+event_bus = NodePath("../../EventBus")
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="GUI/UnitGUI" unique_id=1943469481]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -595.0
+offset_top = 593.0
+offset_right = 595.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UnitDisplay" type="PanelContainer" parent="GUI/UnitGUI/ButtonsPanel" unique_id=1174420133]
+layout_mode = 2
+
+[node name="UnitDisplay" type="HBoxContainer" parent="GUI/UnitGUI/ButtonsPanel/UnitDisplay" unique_id=1730176445]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="GUI/UnitGUI/ButtonsPanel/UnitDisplay/UnitDisplay" unique_id=1286816165]
+layout_mode = 2
+expand_mode = 2
+
+[node name="Label" type="Label" parent="GUI/UnitGUI/ButtonsPanel/UnitDisplay/UnitDisplay" unique_id=1853906218]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="GUI/UnitGUI/ButtonsPanel" unique_id=720770255]
+layout_mode = 2
+
+[node name="DiceRoller" type="Control" parent="GUI" unique_id=959808862 node_paths=PackedStringArray("face_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(641, 362)
+mouse_filter = 2
+script = ExtResource("22_3sj3y")
+face_label = NodePath("TextureRect/Label")
+
+[node name="TextureRect" type="TextureRect" parent="GUI/DiceRoller" unique_id=1808341267]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -106.90689
+offset_right = 100.0
+offset_bottom = 106.90689
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("23_irjos")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="GUI/DiceRoller/TextureRect" unique_id=1040137770]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -11.5
+offset_right = 0.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "20"
+
+[node name="RTSCamera" type="Camera3D" parent="." unique_id=20600744]
+transform = Transform3D(0.84137875, -0.24867123, 0.47983792, 0, 0.8878555, 0.46012235, -0.5404459, -0.38713714, 0.7470228, 2.7536478, 3.6747549, 4.251596)
+fov = 19.762121
+script = ExtResource("2_ocpgg")
+camera_speed = 0.0
+metadata/_custom_type_script = "uid://bdupq0x2kehi0"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=705476165]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 5.8477354, 0)
+
+[editable path="UnitRoster/SBH"]
+[editable path="UnitRoster/Enemy 1"]
+[editable path="UnitRoster/Enemy 2"]

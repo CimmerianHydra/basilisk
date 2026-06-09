@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://q8aaphl37u7x"]
+
+[ext_resource type="Script" uid="uid://12e0tbl0g5qt" path="res://battle/scenes/battle_example.gd" id="1_dd54u"]
+[ext_resource type="Script" uid="uid://bgfvlul6ojuo8" path="res://battle/scenes/EventBus.gd" id="1_ejqhl"]
+[ext_resource type="PackedScene" uid="uid://2qndh5l3ui4p" path="res://unit/unit.tscn" id="1_nktdr"]
+[ext_resource type="Script" uid="uid://bdupq0x2kehi0" path="res://battle/RTSCamera.gd" id="2_ocpgg"]
+[ext_resource type="Script" uid="uid://6wkwnvhof3t2" path="res://addons/easystatemachine/nodes/easy_state.gd" id="3_7hggt"]
+[ext_resource type="Texture2D" uid="uid://bbrojxvidcq8q" path="res://icon.svg" id="3_l7fs3"]
+[ext_resource type="Script" uid="uid://c8svgpcqsmu56" path="res://addons/easystatemachine/config/sm_config.gd" id="3_pievb"]
+[ext_resource type="Script" uid="uid://b18yy6rgap5li" path="res://addons/easystatemachine/nodes/easy_state_machine.gd" id="5_w06ya"]
+[ext_resource type="Script" uid="uid://b2xfxp8nxesga" path="res://battle/grid/hex_grid_3d.gd" id="7_pqc6n"]
+[ext_resource type="Script" uid="uid://d32mxcfmwuhwu" path="res://battle/unit_roster.gd" id="7_xojdo"]
+
+[sub_resource type="Resource" id="Resource_whno6"]
+script = ExtResource("3_pievb")
+initial_state = "PlayerTurn"
+debug_enabled = true
+metadata/_custom_type_script = "uid://c8svgpcqsmu56"
+
+[node name="battle" type="Node3D" unique_id=1288196938]
+script = ExtResource("1_dd54u")
+
+[node name="EventBus" type="Node" parent="." unique_id=1611738860]
+script = ExtResource("1_ejqhl")
+metadata/_custom_type_script = "uid://bgfvlul6ojuo8"
+
+[node name="TurnState" type="Node" parent="." unique_id=1496816741]
+script = ExtResource("5_w06ya")
+config = SubResource("Resource_whno6")
+
+[node name="PlayerTurn" type="Node" parent="TurnState" unique_id=107586417]
+script = ExtResource("3_7hggt")
+
+[node name="PlayerTargetSelect" type="Node" parent="TurnState" unique_id=4582252]
+script = ExtResource("3_7hggt")
+
+[node name="PlayerTileSelect" type="Node" parent="TurnState" unique_id=1168569596]
+script = ExtResource("3_7hggt")
+
+[node name="AITurn" type="Node" parent="TurnState" unique_id=887544692]
+script = ExtResource("3_7hggt")
+
+[node name="HexGrid" type="Node3D" parent="." unique_id=1401898762]
+script = ExtResource("7_pqc6n")
+metadata/_custom_type_script = "uid://b2xfxp8nxesga"
+
+[node name="UnitRoster" type="Node3D" parent="." unique_id=1279147256]
+script = ExtResource("7_xojdo")
+metadata/_custom_type_script = "uid://d32mxcfmwuhwu"
+
+[node name="SBH" parent="UnitRoster" unique_id=227157806 instance=ExtResource("1_nktdr")]
+
+[node name="GUI" type="CanvasLayer" parent="." unique_id=1657175639]
+
+[node name="UnitGUI" type="Control" parent="GUI" unique_id=289664371]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ButtonsPanel" type="PanelContainer" parent="GUI/UnitGUI" unique_id=1939482384]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -595.0
+offset_top = 593.0
+offset_right = 595.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="GUI/UnitGUI/ButtonsPanel" unique_id=720770255]
+layout_mode = 2
+
+[node name="UnitDisplay" type="HBoxContainer" parent="GUI/UnitGUI/ButtonsPanel/ButtonsContainer" unique_id=1730176445]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="GUI/UnitGUI/ButtonsPanel/ButtonsContainer/UnitDisplay" unique_id=1286816165]
+layout_mode = 2
+texture = ExtResource("3_l7fs3")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="GUI/UnitGUI/ButtonsPanel/ButtonsContainer/UnitDisplay" unique_id=1853906218]
+layout_mode = 2
+text = "Unit"
+
+[node name="DiceRoller" type="Control" parent="GUI" unique_id=716899355]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RTSCamera" type="Camera3D" parent="." unique_id=20600744]
+transform = Transform3D(0.84137875, -0.24867123, 0.47983792, 0, 0.8878555, 0.46012235, -0.5404459, -0.38713714, 0.7470228, 2.7536478, 3.6747549, 4.251596)
+fov = 19.762121
+script = ExtResource("2_ocpgg")
+camera_speed = 0.0
+metadata/_custom_type_script = "uid://bdupq0x2kehi0"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=705476165]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 5.8477354, 0)

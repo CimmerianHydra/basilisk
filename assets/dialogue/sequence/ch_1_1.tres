@@ -1,0 +1,161 @@
+[gd_resource type="Resource" script_class="DialogueSequence" format=3 uid="uid://8gdenm8sk4fw"]
+
+[ext_resource type="Script" uid="uid://ca4puqf3jyc3p" path="res://dialogue/DialogueEvent.gd" id="1_ebfqc"]
+[ext_resource type="Script" uid="uid://dej4sc0jgjapd" path="res://dialogue/DialogueLoader.gd" id="2_2soxc"]
+[ext_resource type="Script" uid="uid://y2qpi8g11dfa" path="res://dialogue/event/scene/ForegroundChangeEvent.gd" id="2_dhbe7"]
+[ext_resource type="Resource" uid="uid://mfb1563dhwka" path="res://assets/dialogue/character/Bishop/chapter_1_definition.tres" id="2_xsk6p"]
+[ext_resource type="Texture2D" uid="uid://inxss5f2d643" path="res://assets/dialogue/foreground/black.png" id="3_rm0ss"]
+[ext_resource type="Script" uid="uid://csbdny84tsoad" path="res://dialogue/event/character/CharacterEnterEvent.gd" id="3_tp366"]
+[ext_resource type="Script" uid="uid://bisltsdstsc4v" path="res://dialogue/CharacterDefinition.gd" id="4_88gwf"]
+[ext_resource type="Script" uid="uid://cbq4i06u2uuxk" path="res://dialogue/event/scene/BackgroundChangeEvent.gd" id="4_k0t4o"]
+[ext_resource type="Script" uid="uid://b0aqnksfjgvle" path="res://dialogue/event/text/LineEvent.gd" id="5_2no3s"]
+[ext_resource type="Script" uid="uid://burysipfp7k2a" path="res://dialogue/event/scene/WaitEvent.gd" id="5_88gwf"]
+[ext_resource type="Texture2D" uid="uid://bgpxmpq8cb60b" path="res://assets/dialogue/background/prison_cell.jpg" id="5_q85oe"]
+[ext_resource type="Resource" uid="uid://buwxjldodndnu" path="res://assets/dialogue/character/Proxima/chapter_1_definition.tres" id="6_tp366"]
+[ext_resource type="Texture2D" uid="uid://mj3mt8oridkw" path="res://assets/dialogue/foreground/nothing.png" id="9_md81q"]
+[ext_resource type="Script" uid="uid://catsdifrh5ncd" path="res://dialogue/event/character/CharacterExitEvent.gd" id="13_rm0ss"]
+[ext_resource type="Script" uid="uid://c1x0wrs66p21i" path="res://dialogue/event/scene/StageModulateChangeEvent.gd" id="14_q85oe"]
+
+[sub_resource type="Resource" id="Resource_iomsq"]
+script = ExtResource("2_dhbe7")
+texture = ExtResource("3_rm0ss")
+crossfade_duration = 0.0
+metadata/_custom_type_script = "uid://y2qpi8g11dfa"
+
+[sub_resource type="Resource" id="Resource_46or5"]
+script = ExtResource("14_q85oe")
+target_color = Color(0.7137255, 0.7019608, 0.85882354, 1)
+duration = 0.0
+metadata/_custom_type_script = "uid://c1x0wrs66p21i"
+
+[sub_resource type="Resource" id="Resource_p7uxt"]
+script = ExtResource("4_k0t4o")
+texture = ExtResource("5_q85oe")
+crossfade_duration = 0.0
+metadata/_custom_type_script = "uid://cbq4i06u2uuxk"
+
+[sub_resource type="Resource" id="Resource_kak76"]
+script = ExtResource("3_tp366")
+character = ExtResource("2_xsk6p")
+metadata/_custom_type_script = "uid://csbdny84tsoad"
+
+[sub_resource type="Resource" id="Resource_mwo86"]
+script = ExtResource("3_tp366")
+character = ExtResource("6_tp366")
+side = "right"
+flip = true
+metadata/_custom_type_script = "uid://csbdny84tsoad"
+
+[sub_resource type="Resource" id="Resource_ps32u"]
+script = ExtResource("2_dhbe7")
+texture = ExtResource("9_md81q")
+metadata/_custom_type_script = "uid://y2qpi8g11dfa"
+
+[sub_resource type="Resource" id="Resource_w10ft"]
+script = ExtResource("5_88gwf")
+metadata/_custom_type_script = "uid://burysipfp7k2a"
+
+[sub_resource type="Resource" id="Resource_t5qya"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("2_xsk6p")])
+text = "... or, at least, that's what happened according to the textbook."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_tp366"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("6_tp366")])
+text = "Man... "
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_88gwf"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("6_tp366")])
+text = "This stuff's too complicated."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_2no3s"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("6_tp366")])
+text = "The universe is a really big place."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_dhbe7"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("2_xsk6p")])
+text = "No textbook can ever capture just how big and impossible it all is."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_rm0ss"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("2_xsk6p")])
+text = "It's bigger than our imagination too, after all."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_k0t4o"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("6_tp366")])
+text = "Banger line."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_q85oe"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("6_tp366")])
+text = "You're a good dude. I just wish you were out there studying that stuff instead of rotting here, like I am."
+clear_behavior = 1
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_md81q"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("2_xsk6p")])
+text = "I'll be out of here in no time."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_jmhq2"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("2_xsk6p")])
+text = "And maybe we can get you out t-"
+auto_advance_delay = 0.5
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_sos2p"]
+script = ExtResource("5_2no3s")
+text = "[center][i]KNOCK KNOCK.[/i][/center]"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_2wtk4"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("6_tp366")])
+text = "Sounds like lunchtime."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_mcxet"]
+script = ExtResource("5_2no3s")
+speakers = Array[ExtResource("4_88gwf")]([ExtResource("6_tp366")])
+text = "Come on, let's go eat. Your brain needs food, too."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_2e33s"]
+script = ExtResource("13_rm0ss")
+character = ExtResource("6_tp366")
+metadata/_custom_type_script = "uid://catsdifrh5ncd"
+
+[sub_resource type="Resource" id="Resource_53gdr"]
+script = ExtResource("13_rm0ss")
+character = ExtResource("2_xsk6p")
+metadata/_custom_type_script = "uid://catsdifrh5ncd"
+
+[sub_resource type="Resource" id="Resource_5rca0"]
+script = ExtResource("5_88gwf")
+duration = 2.0
+metadata/_custom_type_script = "uid://burysipfp7k2a"
+
+[sub_resource type="Resource" id="Resource_0yy2l"]
+script = ExtResource("2_dhbe7")
+texture = ExtResource("3_rm0ss")
+metadata/_custom_type_script = "uid://y2qpi8g11dfa"
+
+[resource]
+script = ExtResource("2_2soxc")
+events = Array[ExtResource("1_ebfqc")]([SubResource("Resource_iomsq"), SubResource("Resource_46or5"), SubResource("Resource_p7uxt"), SubResource("Resource_kak76"), SubResource("Resource_mwo86"), SubResource("Resource_ps32u"), SubResource("Resource_w10ft"), SubResource("Resource_t5qya"), SubResource("Resource_tp366"), SubResource("Resource_88gwf"), SubResource("Resource_2no3s"), SubResource("Resource_dhbe7"), SubResource("Resource_rm0ss"), SubResource("Resource_k0t4o"), SubResource("Resource_q85oe"), SubResource("Resource_md81q"), SubResource("Resource_jmhq2"), SubResource("Resource_sos2p"), SubResource("Resource_2wtk4"), SubResource("Resource_mcxet"), SubResource("Resource_2e33s"), SubResource("Resource_53gdr"), SubResource("Resource_5rca0"), SubResource("Resource_0yy2l")])
+sequence_name = "Chapter 1-1: Bishop and X in the cell"
+metadata/_custom_type_script = "uid://dej4sc0jgjapd"

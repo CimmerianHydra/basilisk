@@ -1,0 +1,293 @@
+[gd_resource type="Resource" script_class="DialogueSequence" format=3 uid="uid://cmx70b2i5cq6n"]
+
+[ext_resource type="Script" uid="uid://ca4puqf3jyc3p" path="res://dialogue/DialogueEvent.gd" id="1_xq7ym"]
+[ext_resource type="Script" uid="uid://y2qpi8g11dfa" path="res://dialogue/event/scene/ForegroundChangeEvent.gd" id="2_4wfvd"]
+[ext_resource type="Script" uid="uid://dej4sc0jgjapd" path="res://dialogue/DialogueLoader.gd" id="2_a583q"]
+[ext_resource type="Texture2D" uid="uid://inxss5f2d643" path="res://assets/dialogue/foreground/black.png" id="3_iaj86"]
+[ext_resource type="Script" uid="uid://c1x0wrs66p21i" path="res://dialogue/event/scene/StageModulateChangeEvent.gd" id="4_iaj86"]
+[ext_resource type="Script" uid="uid://cbq4i06u2uuxk" path="res://dialogue/event/scene/BackgroundChangeEvent.gd" id="4_ma4ir"]
+[ext_resource type="Texture2D" uid="uid://1xlvfj4oqbkj" path="res://assets/dialogue/background/cafeteria.jpg" id="5_u2f4e"]
+[ext_resource type="Resource" uid="uid://2qasbi8d5wm" path="res://assets/dialogue/character/Decaf/chapter_1_definition.tres" id="5_v5oaj"]
+[ext_resource type="Script" uid="uid://csbdny84tsoad" path="res://dialogue/event/character/CharacterEnterEvent.gd" id="6_cj2ux"]
+[ext_resource type="Resource" uid="uid://bj6sxv4dv8jtr" path="res://assets/dialogue/character/Catch-22/chapter_1_definition.tres" id="7_r56p8"]
+[ext_resource type="Texture2D" uid="uid://mj3mt8oridkw" path="res://assets/dialogue/foreground/nothing.png" id="8_wmunh"]
+[ext_resource type="Script" uid="uid://burysipfp7k2a" path="res://dialogue/event/scene/WaitEvent.gd" id="9_ma4ir"]
+[ext_resource type="Resource" uid="uid://mfb1563dhwka" path="res://assets/dialogue/character/Bishop/chapter_1_definition.tres" id="10_u2f4e"]
+[ext_resource type="Resource" uid="uid://buwxjldodndnu" path="res://assets/dialogue/character/Proxima/chapter_1_definition.tres" id="11_r40fw"]
+[ext_resource type="Script" uid="uid://bisltsdstsc4v" path="res://dialogue/CharacterDefinition.gd" id="12_r56p8"]
+[ext_resource type="Script" uid="uid://b0aqnksfjgvle" path="res://dialogue/event/text/LineEvent.gd" id="13_wmunh"]
+
+[sub_resource type="Resource" id="Resource_iomsq"]
+script = ExtResource("2_4wfvd")
+texture = ExtResource("3_iaj86")
+crossfade_duration = 0.0
+metadata/_custom_type_script = "uid://y2qpi8g11dfa"
+
+[sub_resource type="Resource" id="Resource_cejqr"]
+script = ExtResource("13_wmunh")
+text = "[center]Mining Colony Cafeteria, 12:02.[/center]"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_pjw32"]
+script = ExtResource("4_ma4ir")
+texture = ExtResource("5_u2f4e")
+metadata/_custom_type_script = "uid://cbq4i06u2uuxk"
+
+[sub_resource type="Resource" id="Resource_7mg2y"]
+script = ExtResource("4_iaj86")
+metadata/_custom_type_script = "uid://c1x0wrs66p21i"
+
+[sub_resource type="Resource" id="Resource_73hav"]
+script = ExtResource("6_cj2ux")
+character = ExtResource("7_r56p8")
+position_ratio = 0.25
+metadata/_custom_type_script = "uid://csbdny84tsoad"
+
+[sub_resource type="Resource" id="Resource_8q3lh"]
+script = ExtResource("6_cj2ux")
+character = ExtResource("5_v5oaj")
+position_ratio = 0.75
+metadata/_custom_type_script = "uid://csbdny84tsoad"
+
+[sub_resource type="Resource" id="Resource_y50xm"]
+script = ExtResource("2_4wfvd")
+texture = ExtResource("8_wmunh")
+metadata/_custom_type_script = "uid://y2qpi8g11dfa"
+
+[sub_resource type="Resource" id="Resource_blly2"]
+script = ExtResource("9_ma4ir")
+metadata/_custom_type_script = "uid://burysipfp7k2a"
+
+[sub_resource type="Resource" id="Resource_4w24f"]
+script = ExtResource("6_cj2ux")
+character = ExtResource("11_r40fw")
+side = "right"
+flip = true
+position_ratio = 0.25
+metadata/_custom_type_script = "uid://csbdny84tsoad"
+
+[sub_resource type="Resource" id="Resource_45hdv"]
+script = ExtResource("6_cj2ux")
+character = ExtResource("10_u2f4e")
+side = "right"
+flip = true
+position_ratio = 0.75
+metadata/_custom_type_script = "uid://csbdny84tsoad"
+
+[sub_resource type="Resource" id="Resource_ma4ir"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("10_u2f4e")])
+text = "My sister is at that table. Would you excuse us for a moment?"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_u2f4e"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("11_r40fw")])
+text = "Dude, are you ever gonna let me talk to them?"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_r40fw"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("10_u2f4e")])
+text = "[i]Sigh...[/i]"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_r56p8"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "Who's the new guy?"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_wmunh"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("10_u2f4e")])
+text = "A friend."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_jxped"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "Is he trusted?"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_yepr1"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("10_u2f4e")])
+text = "..."
+letters_per_second = 1.0
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_s02f3"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("10_u2f4e")])
+text = "Yeah, he's a good dude."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_6ihda"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "Alright, then. Sit down."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_iwcai"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "We saw SBH today."
+clear_behavior = 1
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_qw1sb"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "They were trying to pry him open and pick him apart."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_hiolw"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("10_u2f4e")])
+text = "Holy shit! Really?"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_qiqjs"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "Quiet!..."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_h154m"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("11_r40fw")])
+text = "I'm sorry, I'm a bit confused here. Who's SBH?"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_pjtj5"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("7_r56p8")])
+text = "Supermassive Black Hole."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_3wo4u"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("7_r56p8")])
+text = "My mech."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_yvvii"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("11_r40fw")])
+text = "You guys have a [i]mech[/i]?!"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_jvbxr"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "Will you keep your voice down?!..."
+letters_per_second = 60.0
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_trhen"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("11_r40fw")])
+text = "Sorry, this is just..."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_0pxfo"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("11_r40fw")])
+text = "Bishop, who are these people?"
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_6lcls"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("10_u2f4e")])
+text = "My sister Decaf and her boss, Catch-22."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_cyvwy"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "We were trying to reach the blinkspace gate aboard SBH when a bunch of jackasses from this mining colony showed up."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_83su5"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "Supermassive is strong, but... the systems were too damaged to function."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_ms3lv"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "So they captured us."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_mabm3"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("7_r56p8")])
+text = "And stole Supermassive Black Hole."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_c2oto"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("10_u2f4e")])
+text = "And everything it was carrying."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_0683d"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "But I was sure they would've sold him, or maybe even turned him into scrap by now."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_gkrxj"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("7_r56p8")])
+text = "He's custom. No mechanic in the Outer Rim has a clue how the internals work."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_g41ko"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("7_r56p8")])
+text = " Unless I'm there."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_wvm0k"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("7_r56p8")])
+text = "Which is why I know no matter what they do to him, he won't even turn on."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_72olx"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("5_v5oaj")])
+text = "They probably know every piece is worth a lot."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_xmx4k"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("7_r56p8")])
+text = "And they can't turn him into a drilling mech, so they're trying to profit where they can."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_jmpbf"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("10_u2f4e")])
+text = "Supermassive Black Hole is our ticket out of here."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_nvaxf"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("7_r56p8")])
+text = "I promised I would get you out of your bind."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[sub_resource type="Resource" id="Resource_4m7g5"]
+script = ExtResource("13_wmunh")
+speakers = Array[ExtResource("12_r56p8")]([ExtResource("7_r56p8")])
+text = "I will keep that promise."
+metadata/_custom_type_script = "uid://b0aqnksfjgvle"
+
+[resource]
+script = ExtResource("2_a583q")
+events = Array[ExtResource("1_xq7ym")]([SubResource("Resource_iomsq"), SubResource("Resource_cejqr"), SubResource("Resource_pjw32"), SubResource("Resource_7mg2y"), SubResource("Resource_73hav"), SubResource("Resource_8q3lh"), SubResource("Resource_y50xm"), SubResource("Resource_blly2"), SubResource("Resource_4w24f"), SubResource("Resource_45hdv"), SubResource("Resource_ma4ir"), SubResource("Resource_u2f4e"), SubResource("Resource_r40fw"), SubResource("Resource_r56p8"), SubResource("Resource_wmunh"), SubResource("Resource_jxped"), SubResource("Resource_yepr1"), SubResource("Resource_s02f3"), SubResource("Resource_6ihda"), SubResource("Resource_iwcai"), SubResource("Resource_qw1sb"), SubResource("Resource_hiolw"), SubResource("Resource_qiqjs"), SubResource("Resource_h154m"), SubResource("Resource_pjtj5"), SubResource("Resource_3wo4u"), SubResource("Resource_yvvii"), SubResource("Resource_jvbxr"), SubResource("Resource_trhen"), SubResource("Resource_0pxfo"), SubResource("Resource_6lcls"), SubResource("Resource_cyvwy"), SubResource("Resource_83su5"), SubResource("Resource_ms3lv"), SubResource("Resource_mabm3"), SubResource("Resource_c2oto"), SubResource("Resource_0683d"), SubResource("Resource_gkrxj"), SubResource("Resource_g41ko"), SubResource("Resource_wvm0k"), SubResource("Resource_72olx"), SubResource("Resource_xmx4k"), SubResource("Resource_jmpbf"), SubResource("Resource_nvaxf"), SubResource("Resource_4m7g5")])
+metadata/_custom_type_script = "uid://dej4sc0jgjapd"

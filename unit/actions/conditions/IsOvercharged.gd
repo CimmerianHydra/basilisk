@@ -1,0 +1,2 @@
+extends ActionCondition
+class_name IsOvercharged

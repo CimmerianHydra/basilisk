@@ -1,0 +1,2 @@
+extends BattleResource
+class_name OverchargePoint

@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://byhh7mgu1iu0g"]
+
+[ext_resource type="FontFile" uid="uid://d1bjdjs3ovmce" path="res://assets/dialogue/ui/orbitron-light.otf" id="1_0su3g"]
+
+[resource]
+default_font = ExtResource("1_0su3g")
+default_font_size = 24
