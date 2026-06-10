@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://lhtdkm6ordrd"]
+
+[ext_resource type="Script" uid="uid://ct643bhauyvyw" path="res://unit/actions/Action.gd" id="1_gcfsw"]
+[ext_resource type="Script" uid="uid://dh7nosk3jd1o5" path="res://unit/actions/conditions/UsageLimit.gd" id="2_lscl1"]
+[ext_resource type="Script" uid="uid://c8nhcphfavkgy" path="res://unit/actions/conditions/AnyUnit.gd" id="3_gj21y"]
+[ext_resource type="Script" uid="uid://drype5v5xb6v7" path="res://unit/actions/components/Caster.gd" id="4_6nkmd"]
+[ext_resource type="Script" uid="uid://v2fpx1o7vxru" path="res://battle/scenes/TargetPayloadKey.gd" id="5_kafem"]
+[ext_resource type="Script" uid="uid://dvb8onui50jm3" path="res://unit/actions/components/DecreaseUsageLimit.gd" id="6_k58wa"]
+[ext_resource type="Script" uid="uid://gbfi7qj03sw5" path="res://unit/actions/components/FilterUnitArray.gd" id="7_n1aj7"]
+[ext_resource type="Script" uid="uid://5rsnmctivys5" path="res://unit/actions/filters/FilterEnemyByRange.gd" id="8_yfgyk"]
+[ext_resource type="Script" uid="uid://ukaxdv5ubye2" path="res://unit/actions/components/Damage.gd" id="9_gsenp"]
+[ext_resource type="Script" uid="uid://l54nood0ujx5" path="res://unit/damage/Damage.gd" id="10_sj1rt"]
+
+[sub_resource type="Resource" id="Resource_gm160"]
+script = ExtResource("10_sj1rt")
+amount = 5
+metadata/_custom_type_script = "uid://l54nood0ujx5"
+
+[node name="Punish" type="Node" unique_id=1496591852]
+script = ExtResource("1_gcfsw")
+trigger_channel = "movement_start"
+metadata/_custom_type_script = "uid://ct643bhauyvyw"
+
+[node name="UsageLimit" type="Node" parent="." unique_id=1999191685]
+script = ExtResource("2_lscl1")
+metadata/_custom_type_script = "uid://dh7nosk3jd1o5"
+
+[node name="AnyUnit" type="Node" parent="." unique_id=1011444435 node_paths=PackedStringArray("unit_filter")]
+script = ExtResource("3_gj21y")
+unit_filter = NodePath("../FilterUnitArray/FilterEnemyByRange")
+metadata/_custom_type_script = "uid://c8nhcphfavkgy"
+
+[node name="Caster" type="Node" parent="." unique_id=1985525249]
+script = ExtResource("4_6nkmd")
+metadata/_custom_type_script = "uid://drype5v5xb6v7"
+
+[node name="TargetPayloadKey" type="Node" parent="." unique_id=846440292 node_paths=PackedStringArray("filter")]
+script = ExtResource("5_kafem")
+filter = NodePath("../FilterUnitArray/FilterEnemyByRange")
+metadata/_custom_type_script = "uid://v2fpx1o7vxru"
+
+[node name="DecrementUsageLimit" type="Node" parent="." unique_id=194338370 node_paths=PackedStringArray("usage_limit")]
+script = ExtResource("6_k58wa")
+usage_limit = NodePath("../UsageLimit")
+metadata/_custom_type_script = "uid://dvb8onui50jm3"
+
+[node name="FilterUnitArray" type="Node" parent="." unique_id=454170052 node_paths=PackedStringArray("unit_filter")]
+script = ExtResource("7_n1aj7")
+unit_filter = NodePath("FilterEnemyByRange")
+metadata/_custom_type_script = "uid://gbfi7qj03sw5"
+
+[node name="FilterEnemyByRange" type="Node" parent="FilterUnitArray" unique_id=1493294610]
+script = ExtResource("8_yfgyk")
+radius = 1
+metadata/_custom_type_script = "uid://5rsnmctivys5"
+
+[node name="Damage" type="Node" parent="." unique_id=2141974532]
+script = ExtResource("9_gsenp")
+damage = SubResource("Resource_gm160")
+metadata/_custom_type_script = "uid://ukaxdv5ubye2"

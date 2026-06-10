@@ -27,6 +27,10 @@ func _on_unit_clicked(unit : Unit):
 
 func _on_action_completed(_action : Action):
 	_refresh_display()
+	var current_state = turn_state.get_current_state()
+	match current_state.name:
+		"PlayerTurn":
+			visible = true
 
 ## Generates the buttons for the unit UI, starting from its ActionLibrary.
 func _refresh_display() -> void:
@@ -59,7 +63,10 @@ func add_button(def : ButtonDefinition, action : Action):
 	var button := Button.new()
 	button.text = def.text
 	button.icon = def.icon
-	button.connect("pressed", func(): action.run())
+	button.connect("pressed", func():
+		visible = false
+		await action.run()
+		)
 	_buttons_container.add_child(button)
 
 func clear_buttons():

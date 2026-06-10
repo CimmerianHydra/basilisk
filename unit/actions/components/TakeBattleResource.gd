@@ -17,3 +17,4 @@ func execute(ctx: Dictionary) -> void:
 		var to_remove = found_resources[0]
 		resource_library.remove_child(to_remove)
 		to_remove.queue_free()
+	super(ctx)

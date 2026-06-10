@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://12e0tbl0g5qt" path="res://battle/scenes/battle_example.gd" id="1_dd54u"]
 [ext_resource type="Script" uid="uid://bgfvlul6ojuo8" path="res://battle/EventBus.gd" id="1_ejqhl"]
 [ext_resource type="PackedScene" uid="uid://2qndh5l3ui4p" path="res://unit/unit.tscn" id="1_nktdr"]
+[ext_resource type="Script" uid="uid://ccoi1nm72lq33" path="res://dialogue/nodes/DialoguePlayer.gd" id="2_meam3"]
 [ext_resource type="Script" uid="uid://bdupq0x2kehi0" path="res://battle/RTSCamera.gd" id="2_ocpgg"]
 [ext_resource type="Script" uid="uid://6wkwnvhof3t2" path="res://addons/easystatemachine/nodes/easy_state.gd" id="3_7hggt"]
 [ext_resource type="Script" uid="uid://2knbywq5q0nx" path="res://battle/state/turn_state.gd" id="3_jroy4"]
@@ -24,7 +25,6 @@
 [ext_resource type="Script" uid="uid://boaygm7plcx5m" path="res://unit/actions/filters/FilterByCheck.gd" id="16_hswfs"]
 [ext_resource type="Texture2D" uid="uid://cna3y674qqg1k" path="res://assets/battle/unit/icon/icon_red.svg" id="16_scga7"]
 [ext_resource type="Script" uid="uid://dvb8onui50jm3" path="res://unit/actions/components/DecreaseUsageLimit.gd" id="16_uxm47"]
-[ext_resource type="Script" uid="uid://cqrq2fhmuuoef" path="res://unit/actions/components/Debug.gd" id="17_irjos"]
 [ext_resource type="Script" uid="uid://bu8wit8w2dqor" path="res://battle/scenes/unit_gui.gd" id="17_scga7"]
 [ext_resource type="Script" uid="uid://c6hoadvcvydul" path="res://unit/actions/components/TargetCaster.gd" id="19_gjby0"]
 [ext_resource type="Script" uid="uid://ddck6efgvsfqm" path="res://unit/actions/components/Heat.gd" id="19_irjos"]
@@ -35,8 +35,19 @@
 [ext_resource type="Script" uid="uid://bxxtwjsjbfxkb" path="res://unit/actions/components/GiveStatusEffect.gd" id="25_18xdr"]
 [ext_resource type="Script" uid="uid://c71ulfg1754na" path="res://unit/status/Overcharged.gd" id="26_buh5v"]
 [ext_resource type="Script" uid="uid://d0ifgdv17i2nc" path="res://unit/actions/components/PathSelect.gd" id="26_gm160"]
-[ext_resource type="Script" uid="uid://v2fpx1o7vxru" path="res://battle/scenes/TargetPayloadKey.gd" id="28_gm160"]
+[ext_resource type="Script" uid="uid://bnv7h3atwl5fl" path="res://unit/actions/components/GiveBattleResource.gd" id="28_buh5v"]
 [ext_resource type="Script" uid="uid://dg2oso4bp2m8" path="res://unit/actions/conditions/HasMoveBudget.gd" id="30_buh5v"]
+[ext_resource type="Script" uid="uid://cci4ac3ogsw5b" path="res://unit/actions/conditions/HasStatusEffect.gd" id="32_rj1iu"]
+[ext_resource type="PackedScene" uid="uid://lhtdkm6ordrd" path="res://unit/actions/prebuilt/punish.tscn" id="35_meam3"]
+[ext_resource type="Script" uid="uid://blbt7bqhowp57" path="res://dialogue/nodes/DialogueView.gd" id="38_70xyf"]
+[ext_resource type="Script" uid="uid://b8ispnqbyvwu3" path="res://dialogue/nodes/BackgroundLayer.gd" id="39_fnmov"]
+[ext_resource type="Texture2D" uid="uid://bgpxmpq8cb60b" path="res://assets/dialogue/background/prison_cell.jpg" id="40_shyit"]
+[ext_resource type="Script" uid="uid://byueja4stepmw" path="res://dialogue/nodes/CharacterStage.gd" id="41_7njsc"]
+[ext_resource type="Script" uid="uid://crdpfabe3i6d0" path="res://dialogue/nodes/ForegroundLayer.gd" id="42_81a45"]
+[ext_resource type="Script" uid="uid://bys72ewljg2uj" path="res://dialogue/nodes/DialogueTextBox.gd" id="43_6bogf"]
+[ext_resource type="Theme" uid="uid://byhh7mgu1iu0g" path="res://assets/dialogue/ui/dialogue_ui.tres" id="44_etq8t"]
+[ext_resource type="Texture2D" uid="uid://cyn1y4fy7v1b7" path="res://assets/dialogue/ui/continue_indicator.png" id="45_3dyhu"]
+[ext_resource type="Script" uid="uid://dep1d0wwbfx3b" path="res://dialogue/nodes/MusicController.gd" id="46_ihiuc"]
 
 [sub_resource type="Resource" id="Resource_whno6"]
 script = ExtResource("3_pievb")
@@ -51,25 +62,13 @@ metadata/_custom_type_script = "uid://beswcafkmd6aa"
 
 [sub_resource type="Resource" id="Resource_scga7"]
 script = ExtResource("15_jroy4")
-amount = 5
+amount = 10
 metadata/_custom_type_script = "uid://l54nood0ujx5"
 
 [sub_resource type="Resource" id="Resource_3sj3y"]
 script = ExtResource("11_d30sd")
 text = "Overcharge"
 metadata/_custom_type_script = "uid://beswcafkmd6aa"
-
-[sub_resource type="GDScript" id="GDScript_18xdr"]
-script/source = "extends ActionComponent
-class_name GiveActionPoint
-
-@onready var action_point := self.get_child(0)
-
-func execute(ctx: Dictionary) -> void:
-	for unit in ctx[Action.TARGETS_KEY]:
-		var template_resource := action_point.duplicate()
-		unit.resource_library.add_child(template_resource)
-"
 
 [sub_resource type="Resource" id="Resource_kpkuu"]
 script = ExtResource("11_d30sd")
@@ -81,13 +80,18 @@ script = ExtResource("11_d30sd")
 text = "Boost"
 metadata/_custom_type_script = "uid://beswcafkmd6aa"
 
-[sub_resource type="Resource" id="Resource_gm160"]
-script = ExtResource("15_jroy4")
-amount = 5
-metadata/_custom_type_script = "uid://l54nood0ujx5"
+[sub_resource type="Resource" id="Resource_buh5v"]
+script = ExtResource("11_d30sd")
+text = "Boost (OC)"
+metadata/_custom_type_script = "uid://beswcafkmd6aa"
 
 [node name="battle" type="Node3D" unique_id=1288196938]
 script = ExtResource("1_dd54u")
+
+[node name="DialoguePlayer" type="Node" parent="." unique_id=263104725 node_paths=PackedStringArray("view")]
+script = ExtResource("2_meam3")
+view = NodePath("../GUI/DialogueView")
+metadata/_custom_type_script = "uid://ccoi1nm72lq33"
 
 [node name="EventBus" type="Node" parent="." unique_id=1611738860]
 script = ExtResource("1_ejqhl")
@@ -225,10 +229,12 @@ metadata/_custom_type_script = "uid://c71ulfg1754na"
 
 [node name="Heat" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=1574521231]
 script = ExtResource("19_irjos")
+amount = 1
 metadata/_custom_type_script = "uid://ddck6efgvsfqm"
 
-[node name="Give Resource" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=241986485]
-script = SubResource("GDScript_18xdr")
+[node name="Give Resource" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge" unique_id=1982515358]
+script = ExtResource("28_buh5v")
+metadata/_custom_type_script = "uid://bnv7h3atwl5fl"
 
 [node name="OverchargePoint" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Overcharge/Give Resource" unique_id=77630153]
 script = ExtResource("23_m4lvt")
@@ -304,7 +310,47 @@ metadata/_custom_type_script = "uid://ks884y2jfk88"
 script = ExtResource("26_gm160")
 metadata/_custom_type_script = "uid://d0ifgdv17i2nc"
 
-[node name="MoveComponent" parent="UnitRoster/SBH" index="7" unique_id=643156353]
+[node name="Sample OC Boost" type="Node" parent="UnitRoster/SBH/ActionLibrary" parent_id_path=PackedInt32Array(227157806, 271660216) index="4" unique_id=146696011]
+script = ExtResource("9_scga7")
+has_button = true
+button_definition = SubResource("Resource_buh5v")
+metadata/_custom_type_script = "uid://ct643bhauyvyw"
+
+[node name="HasStatusEffect" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample OC Boost" unique_id=1012122318 node_paths=PackedStringArray("unit")]
+script = ExtResource("32_rj1iu")
+unit = NodePath("../../..")
+metadata/_custom_type_script = "uid://cci4ac3ogsw5b"
+
+[node name="Overcharged" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample OC Boost/HasStatusEffect" unique_id=1537382938]
+script = ExtResource("26_buh5v")
+metadata/_custom_type_script = "uid://c71ulfg1754na"
+
+[node name="UsageLimit" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample OC Boost" unique_id=777564687]
+script = ExtResource("11_u0yse")
+metadata/_custom_type_script = "uid://dh7nosk3jd1o5"
+
+[node name="DecrementUsageLimit" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample OC Boost" unique_id=1576006955 node_paths=PackedStringArray("usage_limit")]
+script = ExtResource("16_uxm47")
+usage_limit = NodePath("../UsageLimit")
+metadata/_custom_type_script = "uid://dvb8onui50jm3"
+
+[node name="Caster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample OC Boost" unique_id=244408885 node_paths=PackedStringArray("caster")]
+script = ExtResource("12_omuo1")
+caster = NodePath("../../..")
+metadata/_custom_type_script = "uid://drype5v5xb6v7"
+
+[node name="TargetCaster" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample OC Boost" unique_id=945664511]
+script = ExtResource("19_gjby0")
+metadata/_custom_type_script = "uid://c6hoadvcvydul"
+
+[node name="PathMove" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample OC Boost" unique_id=1837706307]
+script = ExtResource("26_gm160")
+metadata/_custom_type_script = "uid://d0ifgdv17i2nc"
+
+[node name="HealthComponent" parent="UnitRoster/SBH" index="6" unique_id=1399505510]
+structure = 4
+
+[node name="MoveComponent" parent="UnitRoster/SBH" index="8" unique_id=643156353]
 move_budget = 5.0
 speed = 2.0
 
@@ -312,130 +358,33 @@ speed = 2.0
 team = 0
 display_icon = ExtResource("16_scga7")
 
-[node name="Punish" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary" parent_id_path=PackedInt32Array(194412516, 271660216) index="0" unique_id=475418979]
-script = ExtResource("9_scga7")
-trigger_channel = "movement_start"
-metadata/_custom_type_script = "uid://ct643bhauyvyw"
+[node name="Punish" parent="UnitRoster/Enemy 1/ActionLibrary" parent_id_path=PackedInt32Array(194412516, 271660216) index="0" unique_id=1496591852 instance=ExtResource("35_meam3")]
 
-[node name="Caster" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=407278203 node_paths=PackedStringArray("caster")]
-script = ExtResource("12_omuo1")
+[node name="Caster" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" index="2" unique_id=1985525249 node_paths=PackedStringArray("caster")]
 caster = NodePath("../../..")
-metadata/_custom_type_script = "uid://drype5v5xb6v7"
 
-[node name="TargetPayloadKey" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=247450666 node_paths=PackedStringArray("filter")]
-script = ExtResource("28_gm160")
-filter = NodePath("../FilterUnitArray/FilterEnemyByRange")
-metadata/_custom_type_script = "uid://v2fpx1o7vxru"
-
-[node name="FilterUnitArray" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=30671914 node_paths=PackedStringArray("unit_filter")]
-script = ExtResource("15_hajar")
-unit_filter = NodePath("FilterEnemyByRange")
-metadata/_custom_type_script = "uid://gbfi7qj03sw5"
-
-[node name="FilterEnemyByRange" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish/FilterUnitArray" unique_id=1229261588 node_paths=PackedStringArray("enemies_of_unit")]
-script = ExtResource("13_omuo1")
+[node name="FilterEnemyByRange" parent="UnitRoster/Enemy 1/ActionLibrary/Punish/FilterUnitArray" parent_id_path=PackedInt32Array(1496591852, 454170052) index="0" unique_id=1493294610 node_paths=PackedStringArray("enemies_of_unit")]
 enemies_of_unit = NodePath("../../../..")
-radius = 1
-metadata/_custom_type_script = "uid://5rsnmctivys5"
 
-[node name="Damage" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=139557680]
-script = ExtResource("14_hajar")
-damage = SubResource("Resource_gm160")
-metadata/_custom_type_script = "uid://ukaxdv5ubye2"
-
-[node name="Debug" type="Node" parent="UnitRoster/Enemy 1/ActionLibrary/Punish" unique_id=1025881235]
-script = ExtResource("17_irjos")
-metadata/_custom_type_script = "uid://cqrq2fhmuuoef"
-
-[node name="GridPositionComponent" parent="UnitRoster/Enemy 1" index="11" unique_id=1687524341]
+[node name="GridPositionComponent" parent="UnitRoster/Enemy 1" index="12" unique_id=1687524341]
 initial_coord = Vector2i(3, 0)
 
 [node name="Enemy 2" parent="UnitRoster" unique_id=1615708435 instance=ExtResource("1_nktdr")]
 team = 0
 display_icon = ExtResource("16_scga7")
 
-[node name="Punish" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary" parent_id_path=PackedInt32Array(1615708435, 271660216) index="0" unique_id=1215708503]
-script = ExtResource("9_scga7")
-trigger_channel = "movement_start"
-metadata/_custom_type_script = "uid://ct643bhauyvyw"
+[node name="Punish" parent="UnitRoster/Enemy 2/ActionLibrary" parent_id_path=PackedInt32Array(1615708435, 271660216) index="0" unique_id=450694557 instance=ExtResource("35_meam3")]
 
-[node name="Caster" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=1162898028 node_paths=PackedStringArray("caster")]
-script = ExtResource("12_omuo1")
+[node name="Caster" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" index="2" unique_id=1985525249 node_paths=PackedStringArray("caster")]
 caster = NodePath("../../..")
-metadata/_custom_type_script = "uid://drype5v5xb6v7"
 
-[node name="TargetPayloadKey" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=2039763992 node_paths=PackedStringArray("filter")]
-script = ExtResource("28_gm160")
-filter = NodePath("../FilterUnitArray/FilterEnemyByRange")
-metadata/_custom_type_script = "uid://v2fpx1o7vxru"
-
-[node name="FilterUnitArray" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=330235130 node_paths=PackedStringArray("unit_filter")]
-script = ExtResource("15_hajar")
-unit_filter = NodePath("FilterEnemyByRange")
-metadata/_custom_type_script = "uid://gbfi7qj03sw5"
-
-[node name="FilterEnemyByRange" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish/FilterUnitArray" unique_id=777839995 node_paths=PackedStringArray("enemies_of_unit")]
-script = ExtResource("13_omuo1")
+[node name="FilterEnemyByRange" parent="UnitRoster/Enemy 2/ActionLibrary/Punish/FilterUnitArray" parent_id_path=PackedInt32Array(450694557, 454170052) index="0" unique_id=1493294610 node_paths=PackedStringArray("enemies_of_unit")]
 enemies_of_unit = NodePath("../../../..")
-radius = 1
-metadata/_custom_type_script = "uid://5rsnmctivys5"
 
-[node name="Damage" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=2029376729]
-script = ExtResource("14_hajar")
-damage = SubResource("Resource_gm160")
-metadata/_custom_type_script = "uid://ukaxdv5ubye2"
-
-[node name="Debug" type="Node" parent="UnitRoster/Enemy 2/ActionLibrary/Punish" unique_id=113200797]
-script = ExtResource("17_irjos")
-metadata/_custom_type_script = "uid://cqrq2fhmuuoef"
-
-[node name="GridPositionComponent" parent="UnitRoster/Enemy 2" index="11" unique_id=1687524341]
+[node name="GridPositionComponent" parent="UnitRoster/Enemy 2" index="12" unique_id=1687524341]
 initial_coord = Vector2i(-3, 0)
 
 [node name="GUI" type="CanvasLayer" parent="." unique_id=1657175639]
-
-[node name="UnitGUI" type="Control" parent="GUI" unique_id=289664371 node_paths=PackedStringArray("turn_state", "unit_roster", "event_bus")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("17_scga7")
-turn_state = NodePath("../../TurnState")
-unit_roster = NodePath("../../UnitRoster")
-event_bus = NodePath("../../EventBus")
-
-[node name="ButtonsPanel" type="HBoxContainer" parent="GUI/UnitGUI" unique_id=1943469481]
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -595.0
-offset_top = 593.0
-offset_right = 595.0
-offset_bottom = -31.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="UnitDisplay" type="PanelContainer" parent="GUI/UnitGUI/ButtonsPanel" unique_id=1174420133]
-layout_mode = 2
-
-[node name="UnitDisplay" type="HBoxContainer" parent="GUI/UnitGUI/ButtonsPanel/UnitDisplay" unique_id=1730176445]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="GUI/UnitGUI/ButtonsPanel/UnitDisplay/UnitDisplay" unique_id=1286816165]
-layout_mode = 2
-expand_mode = 2
-
-[node name="Label" type="Label" parent="GUI/UnitGUI/ButtonsPanel/UnitDisplay/UnitDisplay" unique_id=1853906218]
-layout_mode = 2
-theme_override_font_sizes/font_size = 36
-
-[node name="ButtonsContainer" type="HBoxContainer" parent="GUI/UnitGUI/ButtonsPanel" unique_id=720770255]
-layout_mode = 2
 
 [node name="DiceRoller" type="Control" parent="GUI" unique_id=959808862 node_paths=PackedStringArray("face_label")]
 layout_mode = 3
@@ -482,6 +431,281 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "20"
 
+[node name="DialogueView" type="Control" parent="GUI" unique_id=1614580586 node_paths=PackedStringArray("text_box", "character_stage", "background_layer", "foreground_layer", "music_controller", "name_tag")]
+physics_interpolation_mode = 0
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 2
+script = ExtResource("38_70xyf")
+text_box = NodePath("DialogueTextBox")
+character_stage = NodePath("CharacterStage")
+background_layer = NodePath("BackgroundLayer")
+foreground_layer = NodePath("ForegroundLayer")
+music_controller = NodePath("MusicController")
+name_tag = NodePath("NameTag")
+metadata/_custom_type_script = "uid://blbt7bqhowp57"
+
+[node name="BackgroundLayer" type="Control" parent="GUI/DialogueView" unique_id=1124676629 node_paths=PackedStringArray("texture_rect_a", "texture_rect_b")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -686.5
+offset_top = -384.5
+offset_right = 686.5
+offset_bottom = 384.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("39_fnmov")
+texture_rect_a = NodePath("TextureRectA")
+texture_rect_b = NodePath("TextureRectB")
+metadata/_custom_type_script = "uid://b8ispnqbyvwu3"
+
+[node name="TextureRectA" type="TextureRect" parent="GUI/DialogueView/BackgroundLayer" unique_id=1099785821]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -657.0
+offset_top = -372.0
+offset_right = 657.0
+offset_bottom = 372.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("40_shyit")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRectB" type="TextureRect" parent="GUI/DialogueView/BackgroundLayer" unique_id=1891819355]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -657.0
+offset_top = -372.0
+offset_right = 657.0
+offset_bottom = 372.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 4
+
+[node name="CharacterStage" type="Control" parent="GUI/DialogueView" unique_id=1725402953]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -79.0
+offset_top = -148.0
+offset_right = 86.0
+offset_bottom = 401.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("41_7njsc")
+metadata/_custom_type_script = "uid://byueja4stepmw"
+
+[node name="ForegroundLayer" type="Control" parent="GUI/DialogueView" unique_id=480573543 node_paths=PackedStringArray("texture_rect_a", "texture_rect_b")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -686.5
+offset_top = -384.5
+offset_right = 686.5
+offset_bottom = 384.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("42_81a45")
+texture_rect_a = NodePath("TextureRectA")
+texture_rect_b = NodePath("TextureRectB")
+metadata/_custom_type_script = "uid://crdpfabe3i6d0"
+
+[node name="TextureRectA" type="TextureRect" parent="GUI/DialogueView/ForegroundLayer" unique_id=57204570]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -657.0
+offset_top = -372.0
+offset_right = 657.0
+offset_bottom = 372.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRectB" type="TextureRect" parent="GUI/DialogueView/ForegroundLayer" unique_id=1630764455]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -657.0
+offset_top = -372.0
+offset_right = 657.0
+offset_bottom = 372.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 4
+
+[node name="DialogueTextBox" type="Control" parent="GUI/DialogueView" unique_id=873474674 node_paths=PackedStringArray("rich_text_label", "continue_indicator", "measurement_probe")]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 46.0
+offset_top = 52.0
+offset_right = 524.0
+offset_bottom = 125.0
+script = ExtResource("43_6bogf")
+rich_text_label = NodePath("RichTextLabel")
+continue_indicator = NodePath("ContinueIndicator")
+measurement_probe = NodePath("MeasurementProbe")
+metadata/_custom_type_script = "uid://bys72ewljg2uj"
+
+[node name="PanelBackground" type="Panel" parent="GUI/DialogueView/DialogueTextBox" unique_id=68307769]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("44_etq8t")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GUI/DialogueView/DialogueTextBox" unique_id=921201980]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -11.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("44_etq8t")
+bbcode_enabled = true
+text = "dfhdjkdk"
+
+[node name="MeasurementProbe" type="RichTextLabel" parent="GUI/DialogueView/DialogueTextBox" unique_id=977726570]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 7.0
+offset_right = -9.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("44_etq8t")
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+bbcode_enabled = true
+
+[node name="ContinueIndicator" type="TextureRect" parent="GUI/DialogueView/DialogueTextBox" unique_id=904903821]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.943
+anchor_top = 0.814
+anchor_right = 0.943
+anchor_bottom = 0.84200007
+offset_left = -61.238037
+offset_top = -30.24202
+offset_right = -0.23803711
+offset_bottom = 0.07397461
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("45_3dyhu")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="MusicController" type="Node" parent="GUI/DialogueView" unique_id=1667507976 node_paths=PackedStringArray("player_a", "player_b")]
+script = ExtResource("46_ihiuc")
+player_a = NodePath("PlayerA")
+player_b = NodePath("PlayerB")
+metadata/_custom_type_script = "uid://dep1d0wwbfx3b"
+
+[node name="PlayerA" type="AudioStreamPlayer" parent="GUI/DialogueView/MusicController" unique_id=1682494190]
+
+[node name="PlayerB" type="AudioStreamPlayer" parent="GUI/DialogueView/MusicController" unique_id=1470923046]
+
+[node name="NameTag" type="RichTextLabel" parent="GUI/DialogueView" unique_id=824872879]
+layout_mode = 1
+offset_left = 46.0
+offset_top = 4.0
+offset_right = 160.5
+offset_bottom = 46.0
+theme = ExtResource("44_etq8t")
+bbcode_enabled = true
+
+[node name="UnitGUI" type="Control" parent="GUI" unique_id=289664371 node_paths=PackedStringArray("turn_state", "unit_roster", "event_bus")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("17_scga7")
+turn_state = NodePath("../../TurnState")
+unit_roster = NodePath("../../UnitRoster")
+event_bus = NodePath("../../EventBus")
+
+[node name="ButtonsPanel" type="HBoxContainer" parent="GUI/UnitGUI" unique_id=1943469481]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -595.0
+offset_top = 593.0
+offset_right = 595.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UnitDisplay" type="PanelContainer" parent="GUI/UnitGUI/ButtonsPanel" unique_id=1174420133]
+layout_mode = 2
+
+[node name="UnitDisplay" type="HBoxContainer" parent="GUI/UnitGUI/ButtonsPanel/UnitDisplay" unique_id=1730176445]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="GUI/UnitGUI/ButtonsPanel/UnitDisplay/UnitDisplay" unique_id=1286816165]
+layout_mode = 2
+expand_mode = 2
+
+[node name="Label" type="Label" parent="GUI/UnitGUI/ButtonsPanel/UnitDisplay/UnitDisplay" unique_id=1853906218]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="GUI/UnitGUI/ButtonsPanel" unique_id=720770255]
+layout_mode = 2
+
 [node name="RTSCamera" type="Camera3D" parent="." unique_id=20600744]
 transform = Transform3D(0.84137875, -0.24867123, 0.47983792, 0, 0.8878555, 0.46012235, -0.5404459, -0.38713714, 0.7470228, 2.7536478, 3.6747549, 4.251596)
 fov = 19.762121
@@ -494,4 +718,6 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 5
 
 [editable path="UnitRoster/SBH"]
 [editable path="UnitRoster/Enemy 1"]
+[editable path="UnitRoster/Enemy 1/ActionLibrary/Punish"]
 [editable path="UnitRoster/Enemy 2"]
+[editable path="UnitRoster/Enemy 2/ActionLibrary/Punish"]

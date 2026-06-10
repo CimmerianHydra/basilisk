@@ -39,6 +39,7 @@ func execute(ctx: Dictionary) -> void:
 			ctx[Action.TARGETS_KEY].append(unit)
 	
 	_selected.clear()
+	super(ctx)
 
 
 # ------ Private helpers ------ #
@@ -54,7 +55,6 @@ func _connect_to_unit_roster() -> void:
 	
 	var filtered_units = _apply_filter(roster.get_units())
 	
-	# WIP: make this into a function on UnitRoster so we are agnostic about other Units
 	for unit in filtered_units:
 		unit.highlight_start()
 

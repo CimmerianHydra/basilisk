@@ -10,10 +10,12 @@
 [ext_resource type="Script" uid="uid://pbt3fldcqo45" path="res://unit/components/move_component.gd" id="5_a2j7n"]
 [ext_resource type="Script" uid="uid://dayivijud08yr" path="res://unit/actions/components/ClearStatusEffectAll.gd" id="6_eras8"]
 [ext_resource type="Script" uid="uid://cqv6bxhpcamuq" path="res://unit/components/movement_profile.gd" id="6_j0e0d"]
-[ext_resource type="Script" uid="uid://cqrq2fhmuuoef" path="res://unit/actions/components/Debug.gd" id="7_syn0d"]
+[ext_resource type="Script" uid="uid://0fnn03upvgdo" path="res://unit/health_component.gd" id="8_1quw1"]
 [ext_resource type="Script" uid="uid://pnmtidj57saf" path="res://unit/components/BattleResourceLibrary.gd" id="8_4xbu7"]
+[ext_resource type="Script" uid="uid://ds3e0eclp38" path="res://unit/heat_component.gd" id="9_4ruv6"]
 [ext_resource type="Script" uid="uid://bp5hohravwbtx" path="res://unit/components/grid_position_component.gd" id="9_4xbu7"]
 [ext_resource type="Script" uid="uid://ks884y2jfk88" path="res://unit/actions/resources/ActionPoint.gd" id="9_a2j7n"]
+[ext_resource type="Script" uid="uid://b5r50fss7f2ua" path="res://unit/unit_3d_gui.gd" id="16_5bqrp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s1ym6"]
 size = Vector3(1, 2, 1)
@@ -23,11 +25,38 @@ size = Vector3(1, 2, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_n0sfq"]
 material = SubResource("StandardMaterial3D_hs7ws")
 
+[sub_resource type="Animation" id="Animation_4ruv6"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyVisual")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0)
+
+[sub_resource type="Animation" id="Animation_8g03q"]
+resource_name = "shake"
+length = 0.3
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyVisual")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, 0.06666666, 1, 0.15, 1, 0, 0.13333333, 1, -0.15, 1, 0, 0.20000005, 1, 0.15, 1, 0, 0.26666665, 1, 0, 1, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lawvu"]
+_data = {
+&"RESET": SubResource("Animation_4ruv6"),
+&"shake": SubResource("Animation_8g03q")
+}
+
 [sub_resource type="Resource" id="Resource_5dfwp"]
 script = ExtResource("6_j0e0d")
 metadata/_custom_type_script = "uid://cqv6bxhpcamuq"
 
-[node name="Unit" type="Node3D" unique_id=194412516 node_paths=PackedStringArray("action_library", "resource_library", "status_effect_container", "grid_position_component", "move_component")]
+[node name="Unit" type="Node3D" unique_id=194412516 node_paths=PackedStringArray("action_library", "resource_library", "status_effect_container", "grid_position_component", "move_component", "health_component", "heat_component")]
 script = ExtResource("1_7oxhv")
 display_icon = ExtResource("2_7oxhv")
 action_library = NodePath("ActionLibrary")
@@ -35,6 +64,8 @@ resource_library = NodePath("ResourceLibrary")
 status_effect_container = NodePath("StatusEffectContainer")
 grid_position_component = NodePath("GridPositionComponent")
 move_component = NodePath("MoveComponent")
+health_component = NodePath("HealthComponent")
+heat_component = NodePath("HeatComponent")
 metadata/_custom_type_script = "uid://b0bhkqyx8tjig"
 
 [node name="ClickableComponent" type="Area3D" parent="." unique_id=2021898441]
@@ -57,6 +88,9 @@ no_depth_test = true
 alpha_cut = 1
 texture = ExtResource("2_japly")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1037686287]
+libraries/ = SubResource("AnimationLibrary_lawvu")
+
 [node name="ActionLibrary" type="Node" parent="." unique_id=271660216]
 script = ExtResource("2_2ul3e")
 metadata/_custom_type_script = "uid://cvay8avrue3ve"
@@ -71,15 +105,15 @@ script = ExtResource("6_eras8")
 status_effect_container = NodePath("../../../StatusEffectContainer")
 metadata/_custom_type_script = "uid://dayivijud08yr"
 
-[node name="Debug" type="Node" parent="ActionLibrary/Clear Status Effects" unique_id=1764674183]
-script = ExtResource("7_syn0d")
-metadata/_custom_type_script = "uid://cqrq2fhmuuoef"
-
 [node name="StatusEffectContainer" type="Node" parent="." unique_id=1599924110]
 
-[node name="HullComponent" type="Node" parent="." unique_id=35283500]
+[node name="HealthComponent" type="Node" parent="." unique_id=1399505510]
+script = ExtResource("8_1quw1")
+metadata/_custom_type_script = "uid://0fnn03upvgdo"
 
-[node name="HeatComponent" type="Node" parent="." unique_id=1954669900]
+[node name="HeatComponent" type="Node" parent="." unique_id=1614111020]
+script = ExtResource("9_4ruv6")
+metadata/_custom_type_script = "uid://ds3e0eclp38"
 
 [node name="MoveComponent" type="Node" parent="." unique_id=643156353]
 script = ExtResource("5_a2j7n")
@@ -112,4 +146,83 @@ metadata/_custom_type_script = "uid://ks884y2jfk88"
 script = ExtResource("9_a2j7n")
 metadata/_custom_type_script = "uid://ks884y2jfk88"
 
+[node name="Unit3DGUI" type="Control" parent="." unique_id=1650185833]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+mouse_filter = 2
+script = ExtResource("16_5bqrp")
+z_offset = 2.0
+metadata/_custom_type_script = "uid://b5r50fss7f2ua"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Unit3DGUI" unique_id=397690944]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -104.0
+offset_right = 106.0
+grow_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Unit3DGUI/VBoxContainer" unique_id=1860656438]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Unit3DGUI/VBoxContainer/PanelContainer" unique_id=2101302241]
+layout_mode = 2
+
+[node name="UnitDisplay" type="TextureRect" parent="Unit3DGUI/VBoxContainer/PanelContainer/HBoxContainer" unique_id=906769357]
+layout_mode = 2
+texture = ExtResource("2_7oxhv")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Unit3DGUI/VBoxContainer/PanelContainer/HBoxContainer" unique_id=714391982]
+layout_mode = 2
+
+[node name="HealthGUI" type="PanelContainer" parent="Unit3DGUI/VBoxContainer" unique_id=1713909781]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Unit3DGUI/VBoxContainer/HealthGUI" unique_id=58837727]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Unit3DGUI/VBoxContainer/HealthGUI/HBoxContainer" unique_id=1454314660]
+layout_mode = 2
+text = "HP:"
+
+[node name="ProgressBar" type="ProgressBar" parent="Unit3DGUI/VBoxContainer/HealthGUI/HBoxContainer" unique_id=1287941967]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+show_percentage = false
+
+[node name="HeatGUI" type="PanelContainer" parent="Unit3DGUI/VBoxContainer" unique_id=462000061]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Unit3DGUI/VBoxContainer/HeatGUI" unique_id=1444655567]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Unit3DGUI/VBoxContainer/HeatGUI/HBoxContainer" unique_id=422102691]
+layout_mode = 2
+text = "HT:"
+
+[node name="ProgressBar" type="ProgressBar" parent="Unit3DGUI/VBoxContainer/HeatGUI/HBoxContainer" unique_id=1022379489]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+show_percentage = false
+
+[node name="StructureGUI" type="PanelContainer" parent="Unit3DGUI/VBoxContainer" unique_id=819048700]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Unit3DGUI/VBoxContainer/StructureGUI" unique_id=1705650679]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Unit3DGUI/VBoxContainer/StructureGUI/HBoxContainer" unique_id=922761369]
+layout_mode = 2
+text = "ST:"
+
+[node name="StructureAmount" type="Label" parent="Unit3DGUI/VBoxContainer/StructureGUI/HBoxContainer" unique_id=2044931107]
+layout_mode = 2
+
 [connection signal="input_event" from="ClickableComponent" to="." method="_on_clickable_component_input_event"]
+[connection signal="destroyed" from="HealthComponent" to="." method="_on_health_component_destroyed"]

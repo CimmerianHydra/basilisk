@@ -18,6 +18,10 @@ func _ready() -> void:
 	_bus = get_tree().get_first_node_in_group(EventBus.GROUP)
 	register_to_bus()
 
+func _notification(what):
+	if (what == NOTIFICATION_PREDELETE):
+		deregister_from_bus()
+
 func register_to_bus() -> void:
 	if _bus == null:
 		push_error("Action '%s' couldn't find the EventBus." % self.name)
@@ -25,7 +29,17 @@ func register_to_bus() -> void:
 	_bus.register(self, trigger_channel)
 	return
 
+func deregister_from_bus() -> void:
+	if _bus == null:
+		push_error("Action '%s' couldn't find the EventBus." % self.name)
+		return
+	_bus.deregister(self, trigger_channel)
+	return
+
 func run(payload: Dictionary = {}) -> void:
+	if not check(payload):
+		return
+		
 	_action_context = {}
 	_action_context[PAYLOAD_KEY] = payload
 
@@ -37,7 +51,7 @@ func run(payload: Dictionary = {}) -> void:
 			break
 		await child.execute(_action_context)
 	
-	await GlobalSignals.emit_signal("action_completed", self)
+	GlobalSignals.emit_signal("action_completed", self)
 	completed.emit()
 	return
 
@@ -51,7 +65,7 @@ func check(payload: Dictionary = {}) -> bool:
 			break
 		if not child.check(payload):
 			return false
-		
+	
 	checked.emit()
 	return true
 

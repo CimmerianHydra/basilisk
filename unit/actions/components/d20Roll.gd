@@ -25,3 +25,4 @@ func execute(ctx: Dictionary) -> void:
 		await dice_roller.roll(20, d20_result)
 	trigger("d20_roll", ctx)
 	print("Rolled %d" % [total])
+	super(ctx)
