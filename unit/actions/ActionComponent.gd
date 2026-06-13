@@ -1,15 +1,13 @@
 extends Node
 class_name ActionComponent
 
-signal executed
-
 # Override for setup-time checks. Return false to skip this component.
 func validate(_action_context: Dictionary) -> bool:
 	return true
 
 # Override for the actual logic of the action. May use await internally for blocking components.
 func execute(_action_context: Dictionary) -> void:
-	executed.emit()
+	return
 
 # Don't override.
 func trigger(channel: String, payload: Dictionary) -> void:

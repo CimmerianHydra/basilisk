@@ -14,4 +14,3 @@ func execute(ctx: Dictionary) -> void:
 		return
 
 	ctx[context_key] = unit_filter.filter_array(ctx[context_key])
-	super(ctx)
