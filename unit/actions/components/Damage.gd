@@ -8,5 +8,4 @@ func execute(ctx: Dictionary) -> void:
 	for unit in ctx[Action.TARGETS_KEY]:
 		await trigger("damage", ctx)
 		unit.take_damage(damage)
-		await get_tree().create_timer(2.0).timeout
-	super(ctx)
+		await get_tree().create_timer(1.0).timeout

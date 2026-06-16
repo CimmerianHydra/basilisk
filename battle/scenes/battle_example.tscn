@@ -133,12 +133,12 @@ metadata/_custom_type_script = "uid://ct643bhauyvyw"
 script = ExtResource("11_u0yse")
 metadata/_custom_type_script = "uid://dh7nosk3jd1o5"
 
-[node name="Has Resource" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=1641410930 node_paths=PackedStringArray("unit")]
+[node name="HasResource" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish" unique_id=1641410930 node_paths=PackedStringArray("unit")]
 script = ExtResource("11_oftoa")
 unit = NodePath("../../..")
 metadata/_custom_type_script = "uid://cow5c7euhhw5i"
 
-[node name="ActionPoint" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish/Has Resource" unique_id=1851360528]
+[node name="ActionPoint" type="Node" parent="UnitRoster/SBH/ActionLibrary/Sample Skirmish/HasResource" unique_id=1851360528]
 script = ExtResource("22_emyvw")
 metadata/_custom_type_script = "uid://ks884y2jfk88"
 
