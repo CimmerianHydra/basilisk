@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dm6plmsbm2y5m"]
+
+[ext_resource type="Script" uid="uid://v4jufddw56vt" path="res://engine.gd" id="1_oxp8w"]
+[ext_resource type="Script" uid="uid://drpyv3bhc0ic8" path="res://action_resolver.gd" id="3_7sfm4"]
+[ext_resource type="Script" uid="uid://1vx5qq03bfcj" path="res://World.gd" id="3_i431l"]
+
+[node name="Battle" type="Node3D" unique_id=1043408609]
+
+[node name="Engine" type="Node" parent="." unique_id=738258112 node_paths=PackedStringArray("world")]
+script = ExtResource("1_oxp8w")
+world = NodePath("../World")
+
+[node name="ActionResolver" type="Node" parent="Engine" unique_id=1430004080]
+script = ExtResource("3_7sfm4")
+
+[node name="World" type="Node" parent="." unique_id=121603009]
+script = ExtResource("3_i431l")
+metadata/_custom_type_script = "uid://1vx5qq03bfcj"

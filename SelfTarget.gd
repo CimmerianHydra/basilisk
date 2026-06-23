@@ -1,0 +1,2 @@
+extends Targeting
+class_name SelfTargeting
