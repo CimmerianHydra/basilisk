@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bww41kjgo16h4"]
+
+[ext_resource type="Script" uid="uid://dooqh656v0rld" path="res://battle.gd" id="1_ip7xm"]
+[ext_resource type="Script" uid="uid://dxekxtvjf1tkd" path="res://choice_panel.gd" id="2_oxp8w"]
+
+[node name="Battle" type="Node3D" unique_id=538104682]
+script = ExtResource("1_ip7xm")
+
+[node name="GUI" type="CanvasLayer" parent="." unique_id=1181942229]
+
+[node name="ChoicePanel" type="VBoxContainer" parent="GUI" unique_id=254955557]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_oxp8w")
+metadata/_custom_type_script = "uid://dxekxtvjf1tkd"

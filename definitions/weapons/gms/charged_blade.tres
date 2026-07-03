@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WeaponDefinition" format=3 uid="uid://cirstdkr5sohp"]
+
+[ext_resource type="Script" uid="uid://biw6oeokpv2kx" path="res://engine/unit/weapon_definition.gd" id="1_w5n8g"]
+
+[resource]
+script = ExtResource("1_w5n8g")
+id = &"gms_charged_blade"
+name = "Charged Blade"
+attack_kind = 0
+max_range = 1
+damage_type = 1
+damage_dice = 1
+damage_die_sides = 3
+damage_flat = 3
+metadata/_custom_type_script = "uid://biw6oeokpv2kx"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponDefinition" format=3 uid="uid://bd8rnlsrsr5ks"]
+
+[ext_resource type="Script" uid="uid://biw6oeokpv2kx" path="res://engine/unit/weapon_definition.gd" id="1_3y1sa"]
+
+[resource]
+script = ExtResource("1_3y1sa")
+id = &"gms_assault_rifle"
+name = "Assault Rifle"
+max_range = 10
+damage_dice = 1
+damage_die_sides = 6

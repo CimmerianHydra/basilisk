@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="FrameDefinition" format=3 uid="uid://cjuepjn76jjej"]
+
+[ext_resource type="Script" uid="uid://clsipw18fbrr3" path="res://engine/unit/frame_definition.gd" id="1_74dm1"]
+
+[resource]
+script = ExtResource("1_74dm1")
+metadata/_custom_type_script = "uid://clsipw18fbrr3"
