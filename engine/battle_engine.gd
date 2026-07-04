@@ -40,9 +40,18 @@ func run_round():
 			units,
 			"Select unit to act:")
 		
+		# Notify all mods about the fact that the unit's turn is starting
+		var mods = world.get_modifiers()
+		for mod in mods:
+			await mod.apply({
+				"window" : "turn_start",
+				"actor" : unit})
+		
+		var actions = unit.available_actions()
+		
 		while total_acts > 0:
 			var action: BattleAction = await ask(controller,
-				unit.available_actions(),
+				actions,
 				"Select action for Unit %s:" % unit._name)
 			
 			await action.execute()

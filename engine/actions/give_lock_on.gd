@@ -1,8 +1,9 @@
 extends BattleAction
-class_name LockOn
+class_name GiveLockOn
 
 func execute() -> void:
 	var target : Unit = await BattleEngine.ask(_unit._controller, BattleEngine.world.get_units(), "Choose target:")
-	print("Unit %s Locks On to Unit %s!" % [_unit.display_name(), target.display_name()])
+	var lock_on := LockOn.new(target)
+	target.add_modifier(lock_on)
 
 func display_name() -> String: return "Lock On"
