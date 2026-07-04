@@ -12,7 +12,8 @@ func _ready() -> void:
 	var random_controller = RandomController.new(world)
 	BattleEngine._controllers.append(random_controller)
 	
-	var everest_frame : FrameDefinition = load("res://definitions/frames/gms_everest.tres")
+	var everest_frame : FrameDefinition = load("res://definitions/frames/player/gms_everest.tres")
+	var assault_t1 : FrameDefinition = load("res://definitions/frames/enemy/assault_T1.tres")
 	var assault_rifle : WeaponDefinition = load("res://definitions/weapons/gms/assault_rifle.tres")
 	var charged_blade : WeaponDefinition = load("res://definitions/weapons/gms/charged_blade.tres")
 	
@@ -25,7 +26,7 @@ func _ready() -> void:
 	unit_b.set_controller(human_controller)
 	unit_b._weapons.append(assault_rifle)
 	
-	var enemy_a = Unit.new("Enemy A", everest_frame)
+	var enemy_a = Unit.new("Enemy A", assault_t1)
 	enemy_a.set_controller(random_controller)
 	enemy_a._faction = Unit.Faction.ENEMY
 	enemy_a._weapons.append(assault_rifle)

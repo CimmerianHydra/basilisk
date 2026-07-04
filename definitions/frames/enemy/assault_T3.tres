@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="FrameDefinition" format=3 uid="uid://vrivu807dij1"]
+
+[ext_resource type="Script" uid="uid://c0b3pnug1nv2l" path="res://engine/unit/frame_definition.gd" id="1_ivk2q"]
+
+[resource]
+script = ExtResource("1_ivk2q")
+id = &"assault_T3"
+name = "Assault"
+brand = "Enemy"
+armor = 1
+save_target = 14
+sensors = 8
+max_hp = 21
+evasion = 12
+e_defense = 10
+system_points = 0
+heat_cap = 8
+mounts = Array[int]([])
+metadata/_custom_type_script = "uid://c0b3pnug1nv2l"
