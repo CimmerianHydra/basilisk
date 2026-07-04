@@ -23,6 +23,9 @@ var _quick_actions : int = 2
 ## MODIFIERS
 var _modifiers : Array[Modifier]
 
+## TRAITS
+var _trait
+
 func _init(name, frame : FrameDefinition = FrameDefinition.new()) -> void:
 	_name = name
 	_frame = frame

@@ -33,6 +33,7 @@ enum WeaponTag {
 @export var max_range: int = 0
 @export var threat: int = 1
 
+@export var attack_bonus: int = 0
 @export var damage_type: Damage.Type = Damage.Type.KINETIC
 ## Damage as <damage_dice>d<damage_die_sides> + <damage_flat>.
 ## e.g. 1d6+2 -> dice 1, sides 6, flat 2.  A flat 3 -> dice 0, sides 0, flat 3.

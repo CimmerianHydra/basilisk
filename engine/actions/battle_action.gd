@@ -13,7 +13,7 @@ func is_available() -> bool: return true
 func set_ctx(key, value) -> void: _ctx[key] = value
 func get_ctx(key, default = null) -> Variant:
 	if not _ctx.has(key):
-		push_error("Context of BattleAction %s does not have a %s key." % [display_name(), key] )
+		push_warning("Context of BattleAction %s does not have a %s key." % [display_name(), key] )
 		return default
 	else: return _ctx[key]
 
