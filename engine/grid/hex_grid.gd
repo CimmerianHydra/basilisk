@@ -112,8 +112,8 @@ func can_traverse(a: Vector2i, b: Vector2i, options: MovementOptions) -> bool:
 	if -dh > options.max_step_down:
 		return false
 	var tb: HexTile = tiles[b]
-	if tb.terrain != null and is_inf(tb.terrain.move_cost):
-		return false
+	#if tb.terrain != null and is_inf(tb.terrain.move_cost):
+		#return false
 	return true
 
 
@@ -127,10 +127,31 @@ func enter_cost(coord: Vector2i, options: MovementOptions) -> float:
 
 ## All tiles reachable from start for at most `budget` movement points.
 ## Returns { coord: accumulated_cost }, including start at cost 0.
-## `blocked` is an optional set { coord: true } of tiles that cannot be stood on
-## (e.g. occupied by other units).
-func get_reachable(start: Vector2i, budget: float, options: MovementOptions, blocked: Dictionary = {}) -> Dictionary:
+func get_reachable(start: Vector2i, budget: float, options: MovementOptions,
+		blocked: Dictionary = {}) -> Dictionary:
+	return _dijkstra(start, budget, options, blocked)["costs"]
+
+
+## Cheapest path to EVERY reachable tile in one sweep. Returns
+## { coord: Array[Vector2i] }, each path excluding start and ending on coord
+## (find_path's convention). start itself is not a key.
+func get_reachable_paths(start: Vector2i, budget: float, options: MovementOptions,
+		blocked: Dictionary = {}) -> Dictionary:
+	var result := _dijkstra(start, budget, options, blocked)
+	var came_from: Dictionary = result["came_from"]
+	var paths := {}
+	for coord: Vector2i in result["costs"]:
+		if coord != start:
+			paths[coord] = _reconstruct(came_from, coord)
+	return paths
+
+
+## Single-source Dijkstra; shared engine behind reachability and path harvesting.
+## Returns { "costs": {coord: cost}, "came_from": {coord: coord} }.
+func _dijkstra(start: Vector2i, budget: float, options: MovementOptions,
+		blocked: Dictionary) -> Dictionary:
 	var costs := {start: 0.0}
+	var came_from := {}
 	var visited := {}
 	var pq := PriorityQueue.new()
 	pq.push(start, 0.0)
@@ -148,8 +169,9 @@ func get_reachable(start: Vector2i, budget: float, options: MovementOptions, blo
 				continue
 			if not costs.has(next) or new_cost < costs[next]:
 				costs[next] = new_cost
+				came_from[next] = current
 				pq.push(next, new_cost)
-	return costs
+	return {"costs": costs, "came_from": came_from}
 
 
 # --- A* pathfinding -------------------------------------------------------------------

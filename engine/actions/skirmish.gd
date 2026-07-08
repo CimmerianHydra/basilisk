@@ -16,8 +16,10 @@ func execute() -> void:
 	await BattleEngine.resolve_event(quick_action_payment)
 	
 	# Weapon and Target Selection phase
-	var weapon : WeaponDefinition = await BattleEngine.ask(_unit._controller, _unit._weapons, "Choose weapon for Skirmish:")
-	var target : Unit = await BattleEngine.ask(_unit._controller, BattleEngine.world.get_units(), "Choose target:")
+	var weapon : WeaponDefinition = await BattleEngine.ask(_unit._controller, _unit._weapons,
+		"Choose weapon for Skirmish:", Choice.Kind.PICK_WEAPON)
+	var target : Unit = await BattleEngine.ask(_unit._controller, BattleEngine.world.get_units(),
+		"Choose target:", Choice.Kind.PICK_TARGET)
 	
 	#set_ctx("attacker", _unit)
 	#set_ctx("weapon", weapon)

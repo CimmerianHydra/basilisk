@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://ca1cl4t7l8w8u"]
+
+[ext_resource type="Script" uid="uid://dr0wvus0bax1e" path="res://view/unit/unit_view.gd" id="1_rkfa7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uec7c"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rkfa7"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_uec7c")
+radius = 0.35
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rkfa7"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_rkfa7"]
+material = SubResource("StandardMaterial3D_rkfa7")
+inner_radius = 0.45
+outer_radius = 0.58
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rkfa7"]
+radius = 0.45
+height = 1.4
+
+[node name="UnitView" type="Node3D" unique_id=1973968401]
+script = ExtResource("1_rkfa7")
+metadata/_custom_type_script = "uid://dr0wvus0bax1e"
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1918521958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CapsuleMesh_rkfa7")
+
+[node name="Highlight" type="MeshInstance3D" parent="." unique_id=1672424571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("TorusMesh_rkfa7")
+
+[node name="PickArea" type="Area3D" parent="." unique_id=568532562]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PickArea" unique_id=96116533]
+shape = SubResource("CapsuleShape3D_rkfa7")

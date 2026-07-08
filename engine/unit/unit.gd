@@ -10,8 +10,9 @@ enum Faction { PLAYER, ENEMY }
 var _hp : int = 0 # Health Points
 var _tp : int = 0 # HeaT Points
 var _weapons : Array[WeaponDefinition] = []
-var _position : Vector3i = Vector3i.ZERO
+var _position : Vector2i = Vector2i.ZERO
 var _oc_counter : int = 0
+var _movement_options: MovementOptions = MovementOptions.new()
 
 ## CONTROLLER
 var _controller : Controller
@@ -36,22 +37,17 @@ func set_controller(controller : Controller) -> void:
 	_controller = controller
 
 func available_actions() -> Array[BattleAction]:
-	var general_actions : Array[BattleAction] = []
+	var general_actions : Array[BattleAction] = [
+		Skirmish.new(self),
+		QuickTech.new(self),
+		Boost.new(self),
+		GiveLockOn.new(self),
+		EndTurnAction.new(self)
+		]
 	if _controller is HumanController:
-		general_actions = [
-			Skirmish.new(self),
-			QuickTech.new(self),
+		general_actions.append_array([
 			Overcharge.new(self),
-			GiveLockOn.new(self),
-			EndTurnAction.new(self)
-			]
-	else:
-		general_actions = [
-			Skirmish.new(self),
-			QuickTech.new(self),
-			GiveLockOn.new(self),
-			EndTurnAction.new(self)
-			]
+			])
 	return general_actions
 
 func get_evasion() -> int:
@@ -63,6 +59,11 @@ func get_e_defense() -> int:
 func get_armor() -> int:
 	return _frame.armor
 
+func get_speed() -> int:
+	return _frame.speed
+
+func get_movement_options() -> MovementOptions:
+	return _movement_options
 
 func get_hp() -> int:
 	return _hp

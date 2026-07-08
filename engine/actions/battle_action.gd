@@ -7,6 +7,8 @@ var _ctx : Dictionary
 func _init(unit : Unit) -> void:
 	_unit = unit
 
+
+@warning_ignore("redundant_await")
 func execute() -> void: await ""
 func is_available() -> bool: return true
 

@@ -1,10 +1,36 @@
 [gd_scene format=3 uid="uid://bww41kjgo16h4"]
 
 [ext_resource type="Script" uid="uid://dooqh656v0rld" path="res://battle.gd" id="1_ip7xm"]
-[ext_resource type="Script" uid="uid://dxekxtvjf1tkd" path="res://choice_panel.gd" id="2_oxp8w"]
+[ext_resource type="Script" uid="uid://dpk7a5f7b1om6" path="res://view/grid/hex_grid_view.gd" id="2_i431l"]
+[ext_resource type="Script" uid="uid://dxekxtvjf1tkd" path="res://view/ui/choice_panel.gd" id="2_oxp8w"]
+[ext_resource type="Script" uid="uid://dc2alg611y0s5" path="res://view/unit_layer.gd" id="3_6t8i5"]
+[ext_resource type="Script" uid="uid://bhh2oy05gnj4j" path="res://view/rts_camera.gd" id="4_6t8i5"]
+[ext_resource type="Script" uid="uid://bojow853m4pcl" path="res://view/ui/radial_choice_panel.gd" id="6_dw4jg"]
+[ext_resource type="Script" uid="uid://bnoxlfuuom2jx" path="res://view/grid/move_highlight_layer.gd" id="7_0npn6"]
 
 [node name="Battle" type="Node3D" unique_id=538104682]
 script = ExtResource("1_ip7xm")
+
+[node name="GridView" type="Node3D" parent="." unique_id=1439827483]
+script = ExtResource("2_i431l")
+metadata/_custom_type_script = "uid://dpk7a5f7b1om6"
+
+[node name="UnitLayer" type="Node3D" parent="." unique_id=1762734063]
+script = ExtResource("3_6t8i5")
+metadata/_custom_type_script = "uid://dc2alg611y0s5"
+
+[node name="MoveHighlightLayer" type="Node3D" parent="." unique_id=410672804]
+script = ExtResource("7_0npn6")
+metadata/_custom_type_script = "uid://bnoxlfuuom2jx"
+
+[node name="RTSCamera" type="Camera3D" parent="." unique_id=1543984636]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 4, 4)
+script = ExtResource("4_6t8i5")
+camera_speed = 0.0
+metadata/_custom_type_script = "uid://bhh2oy05gnj4j"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=74237311]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 0, 0)
 
 [node name="GUI" type="CanvasLayer" parent="." unique_id=1181942229]
 
@@ -22,3 +48,18 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_oxp8w")
 metadata/_custom_type_script = "uid://dxekxtvjf1tkd"
+
+[node name="RadialPanel" type="Control" parent="GUI" unique_id=1112563197]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_dw4jg")
