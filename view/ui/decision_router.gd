@@ -34,10 +34,9 @@ func present(choice: Choice) -> Variant:
 		Choice.Kind.PICK_MOVE:
 			if _camera != null:
 				_camera.frame_positions(_tiles.positions_of(choice.get_options()))
-			return await _tiles.pick_tile(choice.get_options())
+			return await _tiles.pick_tile(choice.get_options(), _preview_paths(choice))
 		_:
 			return await _fallback.present(choice)
-
 
 func _frame_units(units: Array) -> void:
 	if _camera == null:
@@ -45,3 +44,17 @@ func _frame_units(units: Array) -> void:
 	var positions := _units.positions_of(units)
 	if not positions.is_empty():
 		_camera.frame_positions(positions)
+
+## Engine paths exclude the start tile; for drawing, prepend the actor's position
+## so the line visibly begins at the unit's feet.
+func _preview_paths(choice: Choice) -> Dictionary:
+	var actor: Unit = choice._ctx.get("actor")
+	var paths: Dictionary = choice._ctx.get("paths", {})
+	if actor == null or paths.is_empty():
+		return {}
+	var full := {}
+	for coord: Vector2i in paths:
+		var route: Array = [actor._position]
+		route.append_array(paths[coord])
+		full[coord] = route
+	return full

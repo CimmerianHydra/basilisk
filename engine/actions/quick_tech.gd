@@ -9,7 +9,8 @@ func execute() -> void:
 	await BattleEngine.stage_event(quick_action_payment)
 	await BattleEngine.resolve_event(quick_action_payment)
 	
-	var target : Unit = await BattleEngine.ask(_unit._controller, BattleEngine.world.get_units(), "Choose target:")
+	var target : Unit = await BattleEngine.ask(_unit._controller, BattleEngine.world.get_units(),
+		"Choose target:", Choice.Kind.PICK_TARGET)
 	target.apply_damage(2, Damage.Type.HEAT)
 
 func display_name() -> String: return "Quick Tech"

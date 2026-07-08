@@ -1,7 +1,7 @@
 extends BattleEvent
 class_name VoluntaryMoveEvent
 
-## A unit relocating along a path.
+## A unit relocating along a path, willingly.
 
 ## INITIAL DATA
 var _mover: Unit

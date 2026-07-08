@@ -204,7 +204,7 @@ func find_path(start: Vector2i, goal: Vector2i, options: MovementOptions, blocke
 			if not g_score.has(next) or tentative < g_score[next]:
 				g_score[next] = tentative
 				came_from[next] = current
-				#pq.push(next, tentative + float(layout.distance(next, goal)))
+				pq.push(next, tentative + float(distance(next, goal)))
 	return []
 
 

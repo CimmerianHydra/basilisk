@@ -47,10 +47,9 @@ func _apply_faction_color() -> void:
 	if unit == null:
 		push_warning("UnitView entered the tree without setup(); no faction color applied.")
 		return
-	# Safe to mutate: the Body material is marked Local to Scene, so each
-	# instance owns its own copy.
-	var material := _body.mesh.material as StandardMaterial3D
+	var material := StandardMaterial3D.new()
 	material.albedo_color = PLAYER_COLOR if unit._faction == Unit.Faction.PLAYER else ENEMY_COLOR
+	_body.material_override = material
 
 
 func _on_input_event(_camera: Node, event: InputEvent,
