@@ -41,11 +41,10 @@ func run_round():
 			"Select unit to act:")
 		
 		# Notify all mods about the fact that the unit's turn is starting
-		var mods = world.get_modifiers()
-		for mod in mods:
-			await mod.apply({
-				"window" : "turn_start",
-				"actor" : unit})
+		# Should be done using the BattleEvents system
+		var turn_start_event = TurnStartEvent.new(unit)
+		await stage_event(turn_start_event)
+		await resolve_event(turn_start_event)
 		
 		var actions = unit.available_actions()
 		
@@ -66,3 +65,14 @@ func run_round():
 
 func go_next() -> void: _acting_controller = (_acting_controller + 1) % len(_controllers)
 func current_controller(): return _controllers[_acting_controller]
+
+## Emits some sort of event. Modifiers can edit the information on this event.
+## Wondering if this should be the job of the World instead of the BattleEngine.
+func stage_event(event : BattleEvent):
+	var mods = world.get_modifiers()
+	for mod in mods:
+		await mod.on_event(event)
+
+func resolve_event(event : BattleEvent):
+	@warning_ignore("redundant_await")
+	await event.resolve()

@@ -11,6 +11,7 @@ var _hp : int = 0 # Health Points
 var _tp : int = 0 # HeaT Points
 var _weapons : Array[WeaponDefinition] = []
 var _position : Vector3i = Vector3i.ZERO
+var _oc_counter : int = 0
 
 ## CONTROLLER
 var _controller : Controller
@@ -69,6 +70,7 @@ func get_hp() -> int:
 func set_hp(new : int) -> void:
 	_hp = new
 
+# TODO: this should be redone almost completely. Maybe even moved out of Unit to a different system.
 func apply_damage(amount : int, type : Damage.Type) -> void:
 	amount -= get_armor()
 	set_hp(get_hp() - amount)

@@ -2,10 +2,10 @@ extends RefCounted
 class_name World
 
 var _units : Array[Unit]
-var _grid
+var _grid : HexGrid
 
 var _rng : RandomNumberGenerator
-var _mod : Array[Modifier]
+var _global_mods : Array[Modifier]
 
 
 func _init(rng_seed : int = 0) -> void:
@@ -22,6 +22,6 @@ func add_unit(unit : Unit):
 
 func get_modifiers(filter : Callable = func(_x): return true):
 	var to_return = []
-	to_return.append_array(_mod)
+	to_return.append_array(_global_mods)
 	for u in get_units(): to_return.append_array(u.get_modifiers())
 	return to_return.filter(filter)

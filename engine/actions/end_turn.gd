@@ -3,8 +3,8 @@ class_name EndTurnAction
 
 func execute() -> void:
 	print("Unit %s's turn ends." % [_unit.display_name()])
-	_unit._activations -= 1
-	set_ctx("actor", _unit)
-	await phase("turn_end")
+	var turn_end_event := TurnEndEvent.new(_unit)
+	await BattleEngine.stage_event(turn_end_event)
+	await BattleEngine.resolve_event(turn_end_event)
 
 func display_name() -> String: return "End Turn"
