@@ -1,15 +1,30 @@
 [gd_resource type="Resource" script_class="WeaponDefinition" format=3 uid="uid://cirstdkr5sohp"]
 
-[ext_resource type="Script" uid="uid://biw6oeokpv2kx" path="res://engine/unit/weapon_definition.gd" id="1_w5n8g"]
+[ext_resource type="Script" uid="uid://eer4vsahdsqf" path="res://engine/weapon/weapon_profile.gd" id="1_6eftb"]
+[ext_resource type="Script" uid="uid://biw6oeokpv2kx" path="res://engine/weapon/weapon_definition.gd" id="1_w5n8g"]
+[ext_resource type="Script" uid="uid://pcqedipcbnk7" path="res://engine/weapon/damage_packet.gd" id="2_gg6ae"]
+
+[sub_resource type="Resource" id="Resource_jipyk"]
+script = ExtResource("2_gg6ae")
+dice = 1
+sides = 3
+flat = 3
+metadata/_custom_type_script = "uid://pcqedipcbnk7"
+
+[sub_resource type="Resource" id="Resource_0fhsn"]
+script = ExtResource("1_6eftb")
+profile_name = "Charged Blade"
+attack_kind = 0
+max_range = 1
+damage_packets = Array[ExtResource("2_gg6ae")]([SubResource("Resource_jipyk")])
+tags = Dictionary[int, int]({
+0: 1
+})
+metadata/_custom_type_script = "uid://eer4vsahdsqf"
 
 [resource]
 script = ExtResource("1_w5n8g")
-id = &"gms_charged_blade"
+id = &"charged_blade"
 name = "Charged Blade"
-attack_kind = 0
-max_range = 1
-damage_type = 1
-damage_dice = 1
-damage_die_sides = 3
-damage_flat = 3
+profiles = Array[ExtResource("1_6eftb")]([SubResource("Resource_0fhsn")])
 metadata/_custom_type_script = "uid://biw6oeokpv2kx"

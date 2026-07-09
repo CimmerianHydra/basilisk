@@ -9,7 +9,7 @@ enum Faction { PLAYER, ENEMY }
 ## BATTLE STATE
 var _hp : int = 0 # Health Points
 var _tp : int = 0 # HeaT Points
-var _weapons : Array[WeaponDefinition] = []
+var _weapons : Array[Weapon] = []
 var _position : Vector2i = Vector2i.ZERO
 var _oc_counter : int = 0
 
@@ -38,6 +38,10 @@ func _init(name, frame : FrameDefinition = FrameDefinition.new()) -> void:
 
 func set_controller(controller : Controller) -> void:
 	_controller = controller
+
+func add_weapon(definition : WeaponDefinition) -> void:
+	var w = Weapon.new(definition)
+	_weapons.append(w)
 
 func available_actions() -> Array[BattleAction]:
 	var general_actions : Array[BattleAction] = [

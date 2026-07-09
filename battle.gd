@@ -45,20 +45,20 @@ func _spawn_units(human: Controller, ai: Controller) -> void:
 	var unit_a := Unit.new("Ally A", everest_frame)
 	unit_a.set_controller(human)
 	unit_a._faction = Unit.Faction.PLAYER
-	unit_a._weapons.append(assault_rifle)
-	unit_a._weapons.append(charged_blade)
+	unit_a.add_weapon(assault_rifle)
+	unit_a.add_weapon(charged_blade)
 	unit_a._position = Vector2i(-2, 1)
 
 	var unit_b := Unit.new("Ally B", everest_frame)
 	unit_b._faction = Unit.Faction.PLAYER
 	unit_b.set_controller(human)
-	unit_b._weapons.append(assault_rifle)
+	unit_b.add_weapon(assault_rifle)
 	unit_b._position = Vector2i(-2, 2)
 
 	var enemy_a := Unit.new("Enemy A", assault_t1)
 	enemy_a.set_controller(ai)
 	enemy_a._faction = Unit.Faction.ENEMY
-	enemy_a._weapons.append(assault_rifle)
+	enemy_a.add_weapon(assault_rifle)
 	enemy_a._activations = 2
 	enemy_a._position = Vector2i(2, 0)
 

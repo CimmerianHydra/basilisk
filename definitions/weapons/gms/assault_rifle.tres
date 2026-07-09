@@ -1,11 +1,29 @@
-[gd_resource type="Resource" script_class="WeaponDefinition" format=3 uid="uid://bd8rnlsrsr5ks"]
+[gd_resource type="Resource" script_class="WeaponDefinition" format=3 uid="uid://dlvk577xian4c"]
 
-[ext_resource type="Script" uid="uid://biw6oeokpv2kx" path="res://engine/unit/weapon_definition.gd" id="1_3y1sa"]
+[ext_resource type="Script" uid="uid://biw6oeokpv2kx" path="res://engine/weapon/weapon_definition.gd" id="1_3y1sa"]
+[ext_resource type="Script" uid="uid://eer4vsahdsqf" path="res://engine/weapon/weapon_profile.gd" id="1_7bocu"]
+[ext_resource type="Script" uid="uid://pcqedipcbnk7" path="res://engine/weapon/damage_packet.gd" id="2_0ykf7"]
+
+[sub_resource type="Resource" id="Resource_rxwgl"]
+script = ExtResource("2_0ykf7")
+dice = 1
+sides = 6
+type = 1
+metadata/_custom_type_script = "uid://pcqedipcbnk7"
+
+[sub_resource type="Resource" id="Resource_5et0a"]
+script = ExtResource("1_7bocu")
+profile_name = "Assault Rifle"
+max_range = 10
+damage_packets = Array[ExtResource("2_0ykf7")]([SubResource("Resource_rxwgl")])
+tags = Dictionary[int, int]({
+3: 2
+})
+metadata/_custom_type_script = "uid://eer4vsahdsqf"
 
 [resource]
 script = ExtResource("1_3y1sa")
-id = &"gms_assault_rifle"
+id = &"assault_rifle"
 name = "Assault Rifle"
-max_range = 10
-damage_dice = 1
-damage_die_sides = 6
+profiles = Array[ExtResource("1_7bocu")]([SubResource("Resource_5et0a")])
+metadata/_custom_type_script = "uid://biw6oeokpv2kx"

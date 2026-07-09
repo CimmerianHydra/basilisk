@@ -12,6 +12,7 @@ enum Kind {
 	PICK_TECH,
 	PICK_INVADE,
 	PICK_MOVE,
+	PICK_AOE_ANCHOR,
 }
 
 var _kind : Kind
