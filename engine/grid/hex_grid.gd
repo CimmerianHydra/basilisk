@@ -111,7 +111,7 @@ func can_traverse(a: Vector2i, b: Vector2i, options: MovementOptions) -> bool:
 		return false
 	if -dh > options.max_step_down:
 		return false
-	var tb: HexTile = tiles[b]
+	#var tb: HexTile = tiles[b]
 	#if tb.terrain != null and is_inf(tb.terrain.move_cost):
 		#return false
 	return true

@@ -2,10 +2,7 @@ extends BattleAction
 class_name Skirmish
 
 # NOTE: it seems like the structure of all these actions is always "write something in the context",
-# then "await a phase", then "get something from the context".
-
-# NOTE: it would be nice to create a standardized "phase" that modifiers can hook on to.
-# This may eventually become the "BattleEvents" system, see comments below.
+# then "await an event", then "get something from the context".
 
 func execute() -> void:
 	print("Unit %s skirmishes!" % [_unit.display_name()])
@@ -18,16 +15,29 @@ func execute() -> void:
 	# Weapon and Target Selection phase
 	var weapon : WeaponDefinition = await BattleEngine.ask(_unit._controller, _unit._weapons,
 		"Choose weapon for Skirmish:", Choice.Kind.PICK_WEAPON)
-	var target : Unit = await BattleEngine.ask(_unit._controller, BattleEngine.world.get_units(),
-		"Choose target:", Choice.Kind.PICK_TARGET)
 	
-	#set_ctx("attacker", _unit)
-	#set_ctx("weapon", weapon)
-	#set_ctx("target", target)
+	# temporary until we figure out AoE and tile selection
+	var target : Unit
 	
-	# Slowly moving from the "phase" system to the "event" system.
+	# The targets depend on the chosen weapon.
+	# Some weapons target tiles, some target units.
+	var attack_kind = weapon.attack_kind
+	var radius : int = mini(weapon.max_range, _unit._frame.sensors)
+	
+	var target_kind = weapon.target_kind
+	if target_kind == WeaponDefinition.TargetKind.UNIT:
+		target = await BattleEngine.ask(
+			_unit._controller,
+			BattleEngine.world.get_enemy_units_in_range(_unit, radius),
+			"Choose target:",
+			Choice.Kind.PICK_TARGET
+			)
+	# TODO: tile selection for AoE and such
+	
 	var atk_roll := AttackRollEvent.new(_unit, target)
 	atk_roll.weapon = weapon
+	if attack_kind == WeaponDefinition.AttackKind.MELEE:
+		atk_roll._ignores_cover = true
 	await BattleEngine.stage_event(atk_roll)
 	await BattleEngine.resolve_event(atk_roll)
 	

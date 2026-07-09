@@ -23,7 +23,6 @@ var total : int = 0
 
 # EXTRA DATA
 var lock_on_consumed : bool = false
-var ignores_cover : bool = false
 
 func _init(atker : Unit, defer : Unit) -> void:
 	setup(atker, defer)

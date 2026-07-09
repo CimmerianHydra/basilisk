@@ -13,6 +13,11 @@ enum AttackKind {
 	RANGED,  ## Uses RANGE, affected by cover, targets EVASION.
 }
 
+enum TargetKind {
+	UNIT,
+	TILE,
+}
+
 enum WeaponTag {
 	AP, ## Armour-Piercing: damage ignores ARMOR.
 	ACCURATE, ## +1 Accuracy on attacks.
@@ -30,6 +35,7 @@ enum WeaponTag {
 
 ## Reach in spaces. `max_range` is used for RANGED attacks; `threat` for MELEE
 ## reach and for OVERWATCH with either kind. Threat defaults to 1.
+@export var target_kind: TargetKind = TargetKind.UNIT
 @export var max_range: int = 0
 @export var threat: int = 1
 

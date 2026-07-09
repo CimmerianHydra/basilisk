@@ -12,7 +12,10 @@ var _tp : int = 0 # HeaT Points
 var _weapons : Array[WeaponDefinition] = []
 var _position : Vector2i = Vector2i.ZERO
 var _oc_counter : int = 0
-var _movement_options: MovementOptions = MovementOptions.new()
+
+## MOVEMENT
+var _remaining_movement : int = 0
+var _movement_options : MovementOptions = MovementOptions.new()
 
 ## CONTROLLER
 var _controller : Controller

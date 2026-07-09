@@ -32,6 +32,10 @@ func total_activations() -> int:
 
 
 func run_round() -> void:
+	var round_start_event := RoundStartEvent.new()
+	await stage_event(round_start_event)
+	await resolve_event(round_start_event)
+	
 	var total_acts := total_activations()
 	print("New round. Activations: %s" % total_acts)
 	while total_acts > 0:

@@ -26,7 +26,6 @@ metadata/_custom_type_script = "uid://bnoxlfuuom2jx"
 [node name="RTSCamera" type="Camera3D" parent="." unique_id=1543984636]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 4, 4)
 script = ExtResource("4_6t8i5")
-camera_speed = 0.0
 metadata/_custom_type_script = "uid://bhh2oy05gnj4j"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=74237311]

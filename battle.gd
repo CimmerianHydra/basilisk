@@ -35,7 +35,7 @@ func _ready() -> void:
 
 	BattleEngine.run_round()
 
-
+# temporary
 func _spawn_units(human: Controller, ai: Controller) -> void:
 	var everest_frame: FrameDefinition = load("res://definitions/frames/player/gms_everest.tres")
 	var assault_t1: FrameDefinition = load("res://definitions/frames/enemy/assault_T1.tres")
