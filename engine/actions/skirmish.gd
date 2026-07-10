@@ -28,14 +28,15 @@ func execute() -> void:
  
 	var weapon: Weapon = await BattleEngine.ask(_unit._controller, usable,
 			"Choose weapon for Skirmish:", Choice.Kind.PICK_WEAPON, {"actor": _unit})
- 
+	
 	# --- profile: almost always one; the Siege Cannon asks -------------------
 	var profiles := weapon.usable_profiles(_unit)
 	var profile: WeaponProfile = profiles[0]
 	if profiles.size() > 1:
 		profile = await BattleEngine.ask(_unit._controller, profiles,
 				"Choose fire mode:", Choice.Kind.GENERIC, {"actor": _unit})
- 
+	
+	
 	# --- targeting ------------------------------------------------------------
 	var query := TargetingQuery.build(_unit, profile)
 	var targets: TargetSet = await _acquire_targets(query)
@@ -61,34 +62,46 @@ func execute() -> void:
 			atk.accuracy += 1
 		if profile.has_tag(WeaponProfile.WeaponTag.INACCURATE):
 			atk.difficulty += 1
+		var has_ap = profile.has_tag(WeaponProfile.WeaponTag.AP)
 		await BattleEngine.stage_event(atk)
 		await BattleEngine.resolve_event(atk)
- 
-		# SMART attacks "use the target's E-DEFENSE instead of EVASION".
+		
+		# SMART attacks use the target's E-DEFENSE instead of EVASION.
 		var defense: int = target.get_e_defense() if profile.targets_e_defense() else target.get_evasion()
 		var hit := atk.total >= defense
 		var crit := hit and atk.total >= 20
- 
-		if hit:
-			if crit:
-				print("  CRIT vs %s!" % target.display_name())
-			for entry: Dictionary in damage_rolls:
-				var amount: int = entry.crit if crit else entry.normal
-				# TODO(bonus damage): bonus packets are halved when
-				# targets.multi_target(); base packets never are.
-				target.apply_damage(amount, (entry.packet as DamagePacket).type)
-			# Milestone 2: on-hit riders run here as WeaponEffects — KNOCKBACK
-			# (pushed away from targets.origin), Burn, save-or-status, and
-			# on-crit extras after them.
-		else:
-			# RELIABLE X "always does X damage, even if it misses" — it inherits
-			# AP and the base damage type, but not on-hit riders.
-			var reliable := profile.tag_value(WeaponProfile.WeaponTag.RELIABLE)
-			if reliable > 0 and not profile.damage_packets.is_empty():
-				target.apply_damage(reliable, profile.damage_packets[0].type)
+		
+		for entry: Dictionary in damage_rolls:
+			var dmg_type = (entry.packet as DamagePacket).type
+			var dmg := DamageEvent.new(_unit, target, 0, dmg_type, has_ap)
+			
+			if hit:
+				if crit:
+					print("  CRIT vs %s!" % target.display_name())
+					dmg.amount = entry.crit
+				else:
+					print("  Hit vs %s." % target.display_name())
+					dmg.amount = entry.normal
+					# TODO(bonus damage): bonus packets are halved when
+					# targets.multi_target(); base packets never are.
+					var reliable := profile.tag_value(WeaponProfile.WeaponTag.RELIABLE)
+					if reliable > dmg.amount and not profile.damage_packets.is_empty():
+						dmg.amount = reliable
+					await BattleEngine.stage_event(dmg)
+					await BattleEngine.resolve_event(dmg)
+				# Milestone 2: on-hit riders run here as WeaponEffects — KNOCKBACK
+				# (pushed away from targets.origin), Burn, save-or-status, and
+				# on-crit extras after them.
 			else:
 				print("  Miss vs %s." % target.display_name())
- 
+				# RELIABLE X "always does X damage, even if it misses" — it inherits
+				# AP and the base damage type, but not on-hit riders.
+				var reliable := profile.tag_value(WeaponProfile.WeaponTag.RELIABLE)
+				if reliable > 0 and not profile.damage_packets.is_empty():
+					dmg.amount = reliable
+					await BattleEngine.stage_event(dmg)
+					await BattleEngine.resolve_event(dmg)
+	
 	weapon.consume_shot(profile) # If the weapon has the LOADING tag, it consumes the shot.
 	# TODO(mounts): "you may also attack with a different AUXILIARY weapon on
 	# the same mount" — a second, no-bonus-damage pass once mounts exist.
@@ -97,6 +110,7 @@ func execute() -> void:
  
 ## Routes the query to the matching picker and returns the normalized set.
 ## null means the pick had no legal options.
+# Question: could this be a function on TargetingQuery instead?
 func _acquire_targets(query: TargetingQuery) -> TargetSet:
 	match query.pick_kind():
 		TargetingQuery.PickKind.PICK_UNIT:
@@ -106,7 +120,7 @@ func _acquire_targets(query: TargetingQuery) -> TargetSet:
 			var picked: Unit = await BattleEngine.ask(_unit._controller, candidates,
 					"Choose target:", Choice.Kind.PICK_TARGET, {"actor": _unit})
 			return query.expand(picked)
- 
+		
 		TargetingQuery.PickKind.PICK_ANCHOR:
 			var anchors := query.candidate_anchors()
 			if anchors.is_empty():
@@ -120,7 +134,7 @@ func _acquire_targets(query: TargetingQuery) -> TargetSet:
 					"Choose where to aim:", Choice.Kind.PICK_AOE_ANCHOR,
 					{"actor": _unit, "footprints": footprints})
 			return query.expand(chosen)
- 
+		
 		_:
 			# BURST: nothing to pick; the footprint is fixed on the user.
 			return query.expand(_unit._position)

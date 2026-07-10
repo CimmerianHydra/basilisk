@@ -36,12 +36,23 @@ func _init(name, frame : FrameDefinition = FrameDefinition.new()) -> void:
 	_frame = frame
 	_hp = frame.max_hp
 
+# ----- BATTLE ENGINE SETTERS AND GETTERS -----
+
 func set_controller(controller : Controller) -> void:
 	_controller = controller
 
 func add_weapon(definition : WeaponDefinition) -> void:
 	var w = Weapon.new(definition)
 	_weapons.append(w)
+
+func add_modifier(mod : Modifier) -> void:
+	_modifiers.append(mod)
+
+func get_modifiers() -> Array[Modifier]:
+	# Clean up first so we never hand over expired mods
+	for mod in _modifiers.duplicate():
+		if mod._ticks == 0: _modifiers.erase(mod)
+	return _modifiers
 
 func available_actions() -> Array[BattleAction]:
 	var general_actions : Array[BattleAction] = [
@@ -56,6 +67,8 @@ func available_actions() -> Array[BattleAction]:
 			Overcharge.new(self),
 			])
 	return general_actions
+
+# ----- BATTLE STAT GETTERS -----
 
 func get_evasion() -> int:
 	return _frame.evasion
@@ -72,27 +85,34 @@ func get_speed() -> int:
 func get_movement_options() -> MovementOptions:
 	return _movement_options
 
+# ----- HP -----
+
 func get_hp() -> int:
 	return _hp
 
 func set_hp(new : int) -> void:
 	_hp = new
 
-# TODO: this should be redone almost completely. Maybe even moved out of Unit to a different system.
-func apply_damage(amount : int, type : Damage.Type) -> void:
-	amount -= get_armor()
+func decrease_hp(amount : int) -> void:
 	set_hp(get_hp() - amount)
-	print("Unit %s took %s %s damage." % [_name, amount, Damage.display_name(type)])
 
+func increase_hp(amount : int) -> void:
+	set_hp(get_hp() + amount)
 
+# ----- HEAT -----
 
-func add_modifier(mod : Modifier) -> void:
-	_modifiers.append(mod)
+func get_heat() -> int:
+	return _hp
 
-func get_modifiers() -> Array[Modifier]:
-	# Clean up first so we never hand over expired mods
-	for mod in _modifiers.duplicate():
-		if mod._ticks == 0: _modifiers.erase(mod)
-	return _modifiers
+func set_heat(new : int) -> void:
+	_hp = new
+
+func decrease_heat(amount : int) -> void:
+	set_heat(get_heat() - amount)
+
+func increase_heat(amount : int) -> void:
+	set_heat(get_heat() + amount)
+
+# ----- DISPLAY NAME -----
 
 func display_name() -> String: return _name

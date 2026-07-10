@@ -41,6 +41,7 @@ func _spawn_units(human: Controller, ai: Controller) -> void:
 	var assault_t1: FrameDefinition = load("res://definitions/frames/enemy/assault_T1.tres")
 	var assault_rifle: WeaponDefinition = load("res://definitions/weapons/gms/assault_rifle.tres")
 	var charged_blade: WeaponDefinition = load("res://definitions/weapons/gms/charged_blade.tres")
+	var nexus_main: WeaponDefinition = load("res://definitions/weapons/gms/nexus_hunter_killer.tres")
 
 	var unit_a := Unit.new("Ally A", everest_frame)
 	unit_a.set_controller(human)
@@ -52,7 +53,7 @@ func _spawn_units(human: Controller, ai: Controller) -> void:
 	var unit_b := Unit.new("Ally B", everest_frame)
 	unit_b._faction = Unit.Faction.PLAYER
 	unit_b.set_controller(human)
-	unit_b.add_weapon(assault_rifle)
+	unit_b.add_weapon(nexus_main)
 	unit_b._position = Vector2i(-2, 2)
 
 	var enemy_a := Unit.new("Enemy A", assault_t1)

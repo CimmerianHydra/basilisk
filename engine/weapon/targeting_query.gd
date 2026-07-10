@@ -4,7 +4,6 @@ extends RefCounted
 ## should run, what the legal picks are, and what a confirmed pick expands
 ## into. Actions stay rules-blind — Skirmish just routes this to the matching
 ## Choice kind and hands the result to resolution.
-## Intended path: res://engine/targeting/targeting_query.gd
  
 ## Which picker the choice system should present.
 enum PickKind {
@@ -124,7 +123,7 @@ func _in_reach(coord: Vector2i) -> bool:
 		return false # Apocalypse Rail-style "cannot be fired at targets within X"
 	return d <= profile.reach()
 	# TODO: RANGE is measured from a character's EDGE, so Size 2+ units both
-	# reach and are reached slightly farther. Revisit when multi-tile units land.
+	# reach and are reached slightly farther. Revisit when multi-tile units exist.
  
  
 func _passes_los(coord: Vector2i) -> bool:

@@ -8,7 +8,6 @@
 script = ExtResource("2_0ykf7")
 dice = 1
 sides = 6
-type = 1
 metadata/_custom_type_script = "uid://pcqedipcbnk7"
 
 [sub_resource type="Resource" id="Resource_5et0a"]

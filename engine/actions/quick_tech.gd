@@ -11,6 +11,9 @@ func execute() -> void:
 	
 	var target : Unit = await BattleEngine.ask(_unit._controller, BattleEngine.world.get_units(),
 		"Choose target:", Choice.Kind.PICK_TARGET)
-	target.apply_damage(2, Damage.Type.HEAT)
+	
+	var heat := HeatEvent.new(_unit, target, 2)
+	await BattleEngine.stage_event(heat)
+	await BattleEngine.resolve_event(heat)
 
 func display_name() -> String: return "Quick Tech"

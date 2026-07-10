@@ -13,7 +13,7 @@ signal selected(index: int)
 @export var slide_duration: float = 0.35
 @export var stagger: float = 0.05
 
-var _title: Label
+@onready var _title: Label = $Title
 var _buttons: Array[Button] = []
 var _tween: Tween
 
@@ -24,12 +24,6 @@ func _ready() -> void:
 	# buttons (which stop input themselves) are interactive.
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
-
-	_title = Label.new()
-	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_title.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	_title.offset_top = 32.0
-	add_child(_title)
 
 
 func present(title: String, labels: Array[String]) -> void:
