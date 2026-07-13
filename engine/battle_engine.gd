@@ -40,30 +40,30 @@ func run_round() -> void:
 	print("New round. Activations: %s" % total_acts)
 	while total_acts > 0:
 		var controller := current_controller()
-
+		
 		var units := get_active_units(controller)
 		if units.is_empty():
 			go_next()
 			continue
-
+		
 		print("%s's turn." % controller.display_name())
-
+		
 		var unit: Unit = await ask(controller, units,
 				"Select unit to act:", Choice.Kind.PICK_UNIT)
-
+		
 		var turn_start_event := TurnStartEvent.new(unit)
 		await stage_event(turn_start_event)
 		await resolve_event(turn_start_event)
-
+		
 		var actions := unit.available_actions()
-
+		
 		while total_acts > 0:
 			var action: BattleAction = await ask(controller, actions,
 					"Select action for Unit %s:" % unit._name,
 					Choice.Kind.PICK_ACTION, {"actor": unit})
-
+			
 			await action.execute()
-
+			
 			if action is EndTurnAction:
 				total_acts -= 1
 				go_next()
@@ -82,12 +82,22 @@ func current_controller() -> Controller:
 ## Lets modifiers edit the event's data before it plays out.
 func stage_event(event: BattleEvent) -> void:
 	event_staged.emit(event)
+	
+	# Phase 1: gather modifiers for the event
 	var mods = world.get_modifiers()
 	for mod in mods:
 		await mod.on_event(event)
+	
+	# Phase 2: gather reactions for the event
+	var reac = world.get_reactions()
+	for rea in reac:
+		await rea.on_event(event)
 
 
 func resolve_event(event: BattleEvent) -> void:
+	# Phase 1: check if event is still valid (TODO)
+	
+	# Phase 2: actually resolve the event if it's valid
 	@warning_ignore("redundant_await")
 	await event.resolve()
 	event_resolved.emit(event)

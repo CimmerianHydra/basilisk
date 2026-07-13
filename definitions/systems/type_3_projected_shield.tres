@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SystemDefinition" format=3 uid="uid://c0c6td2na7ft0"]
+
+[ext_resource type="Script" uid="uid://bt05nlelkl64c" path="res://engine/unit/system_definition.gd" id="1_x1h6j"]
+[ext_resource type="Script" uid="uid://dluyk28wdirjx" path="res://engine/actions/systems/type_3_projected_shield.gd" id="1_yyjdx"]
+
+[resource]
+script = ExtResource("1_x1h6j")
+id = &"type_3_projected_shield"
+name = "Type-3 Projected Shield"
+SP_cost = 2
+action_grants = Array[GDScript]([ExtResource("1_yyjdx")])
+metadata/_custom_type_script = "uid://bt05nlelkl64c"

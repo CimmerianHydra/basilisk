@@ -6,7 +6,7 @@ extends Resource
 ## .tres, shared by every mech that equips it, and never mutated at runtime.
 ## Mutating a WeaponDefinition would change it for every mech — and every
 ## projected timeline — at once. Per-unit mutable state (loaded, charges) lives
-## in EquippedWeapon.
+## in Weapon.
 ##
 ## Everything about HOW the weapon fires — reach, pattern, damage, tags — moved
 ## into WeaponProfile, because some weapons fire in more than one way and the

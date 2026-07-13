@@ -1,9 +1,7 @@
 class_name TargetSet
 extends RefCounted
-## Normalized output of targeting, whatever the weapon's delivery. Resolution
-## only ever consumes this shape: a single-target rifle is just the degenerate
-## case (one unit, no tiles).
-## Intended path: res://engine/targeting/target_set.gd
+## Normalized output of targeting. Effect handling only ever consumes this
+## shape: a single-target rifle is just the degenerate case (one unit, no tiles).
  
 ## The attack's point of origin: the attacker's tile for direct, BURST, CONE
 ## and LINE attacks, or the anchor point of a BLAST. KNOCKBACK pushes directly
@@ -19,9 +17,3 @@ var tiles: Array[Vector2i] = []
 ## Everyone a separate attack roll is made against, allies included — friendly
 ## fire is legal in Lancer.
 var units: Array[Unit] = []
- 
- 
-## Bonus damage is halved "if there are multiple characters affected".
-func is_multi_target() -> bool:
-	return units.size() > 1
- 

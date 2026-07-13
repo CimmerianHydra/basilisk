@@ -15,4 +15,4 @@ func setup(p_actor : Unit) -> void:
 	actor = p_actor
 
 func resolve() -> void:
-	return
+	actor.turn_start()

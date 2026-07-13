@@ -16,4 +16,4 @@ func execute() -> void:
 	await BattleEngine.resolve_event(move)
 	_unit._remaining_movement -= len(route)
 
-func display_name() -> String: return "Boost"
+func display_name() -> String: return "Move"

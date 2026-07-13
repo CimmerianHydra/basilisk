@@ -16,11 +16,7 @@ var loaded: bool = true
  
 ## LIMITED remaining uses. -1 means "not a limited weapon".
 var charges: int = -1
- 
-## Set when the weapon fires, cleared when the action ends. Feeds the "may also
-## attack with an AUXILIARY weapon on the same mount that hasn't fired yet" rule
-## for SKIRMISH and BARRAGE.
-var fired_this_action: bool = false
+
  
  
 func _init(p_definition: WeaponDefinition) -> void:
@@ -40,7 +36,12 @@ func usable_in_skirmish(unit: Unit) -> bool:
 		return false
 	return _usable(unit)
  
- 
+## Can this weapon be offered in the SKIRMISH weapon pick at all?
+## SUPERHEAVY weapons can only be fired as part of a BARRAGE.
+func usable_in_overwatch(unit: Unit) -> bool:
+	var usable = usable_in_skirmish(unit)
+	return usable
+
 func usable_in_barrage(unit: Unit) -> bool:
 	return _usable(unit)
  
@@ -65,7 +66,6 @@ func usable_profiles(unit: Unit) -> Array[WeaponProfile]:
 		result.append(profile)
 	return result
  
- 
 ## ORDNANCE: only before the unit has moved or taken any non-PROTOCOL action
 ## this turn. Needs a turn flag on Unit, set by BattleEngine whenever a move or
 ## action event resolves for it.
@@ -77,7 +77,6 @@ func _ordnance_legal(_unit: Unit) -> bool:
 ## Costs that firing always pays, hit or miss. HEAT_SELF joins this in
 ## milestone 2 (it needs the heat pipeline).
 func consume_shot(profile: WeaponProfile) -> void:
-	fired_this_action = true
 	if profile.has_tag(WeaponProfile.WeaponTag.LOADING):
 		loaded = false
 	if charges > 0:
@@ -87,12 +86,7 @@ func consume_shot(profile: WeaponProfile) -> void:
 ## STABILIZE's "reload all LOADING weapons" option, External Ammo Feed, etc.
 func reload() -> void:
 	loaded = true
- 
- 
-## Call when the owning action finishes, so the aux follow-up bookkeeping
-## doesn't leak into the next SKIRMISH/BARRAGE.
-func reset_action_flags() -> void:
-	fired_this_action = false
+
  
  
 ## Shown in the radial weapon pick; surfaces unusable-soon state at a glance.

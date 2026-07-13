@@ -28,8 +28,15 @@ func get_enemy_units_in_range(enemies_of : Unit, in_range : int):
 func add_unit(unit : Unit):
 	_units.append(unit)
 
+# TODO: consider not having a filter
 func get_modifiers(filter : Callable = func(_x): return true):
 	var to_return = []
 	to_return.append_array(_global_mods)
 	for u in get_units(): to_return.append_array(u.get_modifiers())
 	return to_return.filter(filter)
+
+func get_reactions():
+	var to_return = []
+	#to_return.append_array(_global_mods)
+	for u in get_units(): to_return.append_array(u.get_reactions())
+	return to_return

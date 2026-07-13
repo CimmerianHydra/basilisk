@@ -39,8 +39,13 @@ func setup(p_source: Unit, p_target: Unit, p_amount: int, p_type: Damage.Type, p
 	ap = p_ap
 	source = p_source
 
+func verify() -> bool:
+	var source_exists = source != null and source is Unit
+	var target_exists = target != null and target is Unit
+	return source_exists and target_exists
 
 func resolve() -> void:
+	if not verify(): return
 	var reduced := amount
 	# ARMOR reduces kinetic/energy/explosive; BURN ignores it by rule, and HEAT
 	# should travel as a HeatEvent rather than through here.

@@ -19,16 +19,10 @@ func get_ctx(key, default = null) -> Variant:
 		return default
 	else: return _ctx[key]
 
-func set_window(name : String): set_ctx("window", name)
-
 func apply_modifiers(filter : Callable = func(_x): return true):
 	var mods = BattleEngine.world.get_modifiers(filter)
 	for mod in mods:
 		await mod.apply(_ctx)
-
-func phase(name : String, mod_filter : Callable = func(_x): return true):
-	set_window(name)
-	await apply_modifiers(mod_filter)
 
 func display_name() -> String: return "..."
 
@@ -71,3 +65,6 @@ func _pick_move(budget: int) -> Array[Vector2i]:
 	var route: Array[Vector2i] = []
 	route.assign(paths[destination])
 	return route
+
+
+ 

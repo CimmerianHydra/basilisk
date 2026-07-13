@@ -7,8 +7,10 @@ enum Faction { PLAYER, ENEMY }
 @export var _frame : FrameDefinition
 
 ## BATTLE STATE
-var _hp : int = 0 # Health Points
-var _tp : int = 0 # HeaT Points
+var _health : int = 0 # Health Points
+var _heat : int = 0 # Heat Points
+var _structure : int = 0 # Structure Points
+var _stress : int = 0 # Stress Points
 var _weapons : Array[Weapon] = []
 var _position : Vector2i = Vector2i.ZERO
 var _oc_counter : int = 0
@@ -24,17 +26,30 @@ var _faction := Faction.PLAYER
 ## ACTION ECONOMY
 var _activations : int = 1
 var _quick_actions : int = 2
+var _usable_reactions : int = 1
+var _can_use_protocol : bool = true
+var _actions_from_systems : Array[BattleAction] = []
 
-## MODIFIERS
+## EVENT RESPONDERS
 var _modifiers : Array[Modifier]
+var _reactions : Array[Reaction] = [Overwatch.new(self)]
+var _reactions_from_systems : Array[Reaction] = []
 
-## TRAITS
-var _trait
+## SYSTEMS
+var _systems : Array[System]
 
 func _init(name, frame : FrameDefinition = FrameDefinition.new()) -> void:
 	_name = name
 	_frame = frame
-	_hp = frame.max_hp
+	_health = frame.max_hp
+
+func turn_start() -> void:
+	_remaining_movement = get_speed()
+	_quick_actions = 2
+	_usable_reactions = 1
+	_can_use_protocol = true
+
+
 
 # ----- BATTLE ENGINE SETTERS AND GETTERS -----
 
@@ -45,6 +60,15 @@ func add_weapon(definition : WeaponDefinition) -> void:
 	var w = Weapon.new(definition)
 	_weapons.append(w)
 
+func add_system(definition : SystemDefinition) -> void:
+	var s = System.new(definition)
+	_systems.append(s)
+	for a_script in s.definition.action_grants:
+		add_action(a_script.new(self))
+
+func add_action(action : BattleAction) -> void:
+	_actions_from_systems.append(action)
+
 func add_modifier(mod : Modifier) -> void:
 	_modifiers.append(mod)
 
@@ -54,18 +78,25 @@ func get_modifiers() -> Array[Modifier]:
 		if mod._ticks == 0: _modifiers.erase(mod)
 	return _modifiers
 
+func get_reactions() -> Array[Reaction]:
+	var to_return : Array[Reaction] = []
+	for r in _reactions:
+		if r._uses > 0: to_return.append(r)
+	for r in _reactions_from_systems:
+		if r._uses > 0: to_return.append(r)
+	return to_return
+
 func available_actions() -> Array[BattleAction]:
-	var general_actions : Array[BattleAction] = [
-		Skirmish.new(self),
-		QuickTech.new(self),
-		Boost.new(self),
-		GiveLockOn.new(self),
-		EndTurnAction.new(self)
-		]
+	var general_actions : Array[BattleAction] = []
+	general_actions.append(Skirmish.new(self))
+	general_actions.append(QuickTech.new(self))
+	general_actions.append(Move.new(self))
+	general_actions.append(Boost.new(self))
 	if _controller is HumanController:
-		general_actions.append_array([
-			Overcharge.new(self),
-			])
+		general_actions.append(Overcharge.new(self))
+	general_actions.append(GiveLockOn.new(self))
+	general_actions.append_array(_actions_from_systems)
+	general_actions.append(EndTurnAction.new(self))
 	return general_actions
 
 # ----- BATTLE STAT GETTERS -----
@@ -88,10 +119,10 @@ func get_movement_options() -> MovementOptions:
 # ----- HP -----
 
 func get_hp() -> int:
-	return _hp
+	return _health
 
 func set_hp(new : int) -> void:
-	_hp = new
+	_health = new
 
 func decrease_hp(amount : int) -> void:
 	set_hp(get_hp() - amount)
@@ -102,10 +133,10 @@ func increase_hp(amount : int) -> void:
 # ----- HEAT -----
 
 func get_heat() -> int:
-	return _hp
+	return _heat
 
 func set_heat(new : int) -> void:
-	_hp = new
+	_heat = new
 
 func decrease_heat(amount : int) -> void:
 	set_heat(get_heat() - amount)

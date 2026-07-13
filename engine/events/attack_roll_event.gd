@@ -4,7 +4,6 @@ class_name AttackRollEvent
 ## INITIAL DATA
 var _attacker : Unit
 var _defender : Unit
-var _weapon : WeaponDefinition
 var _roll_bonus : int = 0
 var _accuracy : int = 0
 var _difficulty : int = 0
@@ -13,7 +12,6 @@ var _ignores_cover : bool = false
 ## FINAL DATA
 var attacker : Unit
 var defender : Unit
-var weapon : WeaponDefinition
 var roll_bonus : int
 var accuracy : int
 var difficulty : int
@@ -45,3 +43,19 @@ func resolve() -> void:
 	total += roll_bonus
 	if not d6_rolls.is_empty(): total += d6_rolls.max() * ad_sgn
 	if not d20_rolls.is_empty(): total += d20_rolls.max()
+	print(_describe())
+
+func _describe() -> String:
+	var description : String = "Unit %s declares an attack roll on Unit %s.\n" % \
+		[attacker.display_name(), defender.display_name()]
+	description += "Dice: 1d20"
+	description += " + %s" % [roll_bonus] if roll_bonus > 0 else ""
+	description += " (%s ACC, %s DIFF)" % [accuracy, difficulty]
+	if not d20_rolls.is_empty():
+		description += " -> %s" % [d20_rolls.max()]
+		description += " + %s" % [roll_bonus] if roll_bonus > 0 else ""
+		if not d6_rolls.is_empty():
+			description += " + " if accuracy - difficulty > 0 else " - "
+			description += "%s" % [d6_rolls.max()]
+		description += " = %s" % [total]
+	return description
